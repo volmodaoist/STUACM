@@ -14,9 +14,11 @@
 
 6. [UVA 练习英文ICPC真题练习](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8)
 
-如果是走工作路线，完成环节2~4即可改变方向，
+如果是走学术路线，完成环节2~3，保证基本代码编写能力即可，
 
-改冲[力扣两百题](https://leetcode.cn/problem-list/qg88wci/)、[程序员面试金典](https://leetcode.cn/problem-list/xb9lfcwi/)，以及[剑指Offer](https://leetcode.cn/problem-list/xb9nqhhg/)，然后每周打打力扣周赛会更合适。
+如果是走工作路线，完成环节1~4，改变方向学习业务技术即可，
+
+改冲[力扣两百题](https://leetcode.cn/problem-list/qg88wci/)、[程序员面试金典](https://leetcode.cn/problem-list/xb9lfcwi/)，以及[剑指Offer](https://leetcode.cn/problem-list/xb9nqhhg/)，然后每周打打[力扣周赛](https://leetcode.cn/contest/)会更合适。
 
 　
 
