@@ -29,7 +29,7 @@
 
 如有条件可以选择购买《CP4》作为算法训练指导书，
 
-<center>
+<div align = "center">
 <p style="text-align: center">
     <img style="font-size: 13.3328px" 
          src="https://onlinejudge.org/images/banners/1q2pjn4n-front-shortedge-384.jpg" 
@@ -39,7 +39,7 @@
          src="https://onlinejudge.org/images/banners/5j9e26-front-shortedge-384.jpg" 
          alt="CP4 - Book 2" title="CP4 - Book 2" width="141" height="200">
 </p>
-</center>
+</div>
 
 [本书](https://cpbook.net/) 难度较大且价格昂贵，其中精选了一些UVA OJ平台的练习，欢迎加入[提问答疑板块](https://github.com/volmodaoist/STUACM/issues) 共同交流这些题目，
 
