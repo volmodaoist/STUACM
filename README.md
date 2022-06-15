@@ -12,7 +12,7 @@
 
 5. [Acwing进阶班](https://www.acwing.com/activity/) + [浙大PAT顶级](https://www.patest.cn/practice)
 
-6. [UVA 练习英文ICPC真题练习](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8)+[LibreOJ训练](https://loj.ac/)
+6. [UVA 练习英文ICPC真题练习](https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8) + [LibreOJ训练](https://loj.ac/)
 
 如果是走学术路线，完成环节2~3，保证基本代码编写能力即可，
 
