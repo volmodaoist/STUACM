@@ -77,10 +77,7 @@ int main(){
     freopen("./test.in","r",stdin);
     freopen("./test.out","w",stdout);
     #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-	#endif
-
+    
     
     return 0;
 }
