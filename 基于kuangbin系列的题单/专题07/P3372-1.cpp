@@ -176,35 +176,3 @@ int main(){
 // 	if (qy > mi) ans += query(qx, qy, mi + 1, hi, rs(node));
 // 	return ans;
 // }
-
-
-
-
-
-// int main() {
-// 	#ifdef ONLINE_JUDEG
-// 	freopen("test.in", "r", stdin);
-// 	freopen("test.out", "w", stdout);
-// 	#endif
-// 	std::ios::sync_with_stdio(false);
-// 	int n, m, t, x, y, k;
-// 	cin >> n >> m;
-// 	for (int i = 1;i <= n;i++) {
-// 		cin >> arr[i];
-// 	}
-// 	buildTree(1, 1, n);
-// 	while (m--) {
-// 		cin >> t;
-// 		switch (t) {
-// 		case 1:
-// 			cin >> x >> y >> k;
-// 			update(x, y, 1, n, 1, k);
-// 			break;
-// 		case 2:
-// 			cin >> x >> y;
-// 			cout << query(x, y, 1, n, 1) << endl;
-// 			break;
-// 		}
-// 	}
-// 	return 0;
-// }
