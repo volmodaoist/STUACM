@@ -43,9 +43,9 @@ int main() {
         if (str[i] == str[j + 1])
             j++;
         nxt[i] = j;
-        printf("%d ", nxt[i]);
+        // printf("%d ", nxt[i]);
     }
-    printf("\n");
+    printf("%d\n", n - nxt[n]);
 
     return 0;
 }
