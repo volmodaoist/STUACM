@@ -8,6 +8,7 @@ int g[MAXN][MAXN], n, m, k, a, b, w;
 
 void floyd(){
     for(int k = 1; k <= n; k++){
+        g[k][k] = 0;
         for(int i = 1; i <= n; i++){
             for(int j = 1; j<= n; j++){
                 g[i][j] = min(g[i][j], g[i][k] + g[k][j]);
@@ -18,15 +19,7 @@ void floyd(){
 
 int main(){ 
     scanf("%d %d %d", &n, &m, &k);
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= n; j++){
-            if(i == j){
-                g[i][j] = 0;
-            }else{
-                g[i][j] = INF;
-            }
-        }
-    }
+    memset(g, 0x3f,sizeof(g));
     for(int i = 0; i < m; i++){
         scanf("%d %d %d", &a, &b, &w);
         g[a][b] = min(g[a][b], w);
