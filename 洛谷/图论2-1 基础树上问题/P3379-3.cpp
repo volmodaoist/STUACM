@@ -53,8 +53,8 @@ void tarjan(int u){
 
 int main() {
     #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../in.txt","r",stdin);
-    freopen("../out.txt","w",stdout);
+    freopen("../../in.txt","r",stdin);
+    freopen("../../out.txt","w",stdout);
     #endif
 
     scanf("%d %d %d", &n, &m, &s);
