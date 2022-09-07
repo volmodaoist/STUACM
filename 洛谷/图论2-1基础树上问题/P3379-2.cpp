@@ -9,6 +9,7 @@
 #define	MOD	1000000007
 #define	PI	3.1415927
 #define	EPS	1e-10
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -19,12 +20,12 @@ int n, m, s, a, b;
 
 
 // 深搜获取深度，父节点，重链头节点，以及子树大小
-void tree_build(int u, int fahter){
-    ft[u] = fahter, dep[u] = dep[fahter] + 1, siz[u] = 1;
+void tree_build(int u, int father){
+    ft[u] = father, dep[u] = dep[father] + 1, siz[u] = 1;
     for(int v : edges[u]){
-        if(v != fahter){
-            tree_build(v, u);
-        }
+        if(v == father)
+            continue;
+        tree_build(v, u);
         siz[u] += siz[v];
         if(siz[hev[u]] < siz[v]) hev[u] = v;
     }
@@ -43,7 +44,7 @@ void tree_decomposition(int u, int t){
 }
 
 int lca(int u, int v){
-    while(top[u] != top[u]){
+    while(top[u] != top[v]){
         if(dep[top[u]] < dep[top[v]])
             swap(u, v);
         u = ft[top[u]];
