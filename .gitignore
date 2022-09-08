@@ -17,6 +17,7 @@ __pycache__/
 *.json
 *.exe
 *ACMGYM*
+*CF*
 *in.txt*
 *out.txt*
 
