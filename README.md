@@ -93,9 +93,9 @@ int main(){
 
 比如AC0001 是指 AcWing平台之中，题号0001指定的题目，在线测评平台简称详见下表：
 
-| 缩写&简称 |                         在线测评平台                         |
-| :-------: | :----------------------------------------------------------: |
-|    HDU    | [杭州电子科技大学在线测评平台](https://acm.hdu.edu.cn/listproblem.php?vol=1) |
-|    PKU    | [北京大学在线测评平台](http://poj.org/problemlist?volume=1)  |
-|    AC     |    [AcWing 在线测评平台](https://www.acwing.com/problem/)    |
-
+|  缩写&简称   |                         在线测评平台                         |
+| :----------: | :----------------------------------------------------------: |
+|     HDU      | [杭州电子科技大学在线测评平台](https://acm.hdu.edu.cn/listproblem.php?vol=1) |
+|  PKU 或 POJ  | [北京大学在线测评平台](http://poj.org/problemlist?volume=1)  |
+| AcWing 或 AC |    [AcWing 在线测评平台](https://www.acwing.com/problem/)    |
+|   LG 或 P    |      [洛谷题单](https://www.luogu.com.cn/training/list)      |
