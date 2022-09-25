@@ -47,6 +47,7 @@ void build(int k, int lo, int hi) {
     tree[k].val = min(tree[lc(k)].val, tree[rc(k)].val);
 }
 
+// 其实只要实现区间更新就好，单坐标更新是区间更新的一个特例
 void update(int k, int i, int val){
     if(tree[k].lo == tree[k].hi && tree[k].lo == i){
         tree[k].val = val;
