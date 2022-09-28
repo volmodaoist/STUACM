@@ -25,74 +25,72 @@ typedef tuple<int, int, int> iii;
 #define  ctz   __builtin_ctz
 #define  fi    first
 #define  se    second
-#define  MAXN  400005
+#define  MAXN  500005
+
 
 typedef struct _TreeNode{
     int lo, hi;
     llong val, tag;
 } TreeNode;
 
-TreeNode tree[MAXN];
-llong v[MAXN];
+TreeNode tr[MAXN];
+int v[MAXN];
 
-void build(int k, int lo, int hi) {
-    tree[k].lo = lo, tree[k].hi = hi, tree[k].tag = 0;
-    if (lo == hi) {
-        tree[k].val = v[lo];
+void build(int lo, int hi, int k = 1){
+    tr[k].lo = lo, tr[k].hi = hi, tr[k].tag = 0;
+    if (tr[k].lo == tr[k].hi) {
+        tr[k].val = v[lo];
         return;
     }
     int md = lo + (hi - lo) / 2;
-    build(lc(k), lo, md);
-    build(rc(k), md + 1, hi);
-    tree[k].val = tree[lc(k)].val + tree[rc(k)].val;
+    build(lo, md, lc(k));
+    build(md + 1, hi, rc(k));
+    tr[k].val = tr[lc(k)].val + tr[rc(k)].val;
 }
 
-// 懒标记不为零的时候向下传播
 void push_down(int k){
-    if(tree[k].tag != 0){
-        tree[lc(k)].val += tree[k].tag * (tree[lc(k)].hi - tree[lc(k)].lo + 1);
-        tree[rc(k)].val += tree[k].tag * (tree[rc(k)].hi - tree[rc(k)].lo + 1);
-        tree[lc(k)].tag += tree[k].tag;
-        tree[rc(k)].tag += tree[k].tag;
-        tree[k].tag = 0;
+    if (tr[k].tag != 0){
+        tr[lc(k)].val += tr[k].tag * (tr[lc(k)].hi - tr[lc(k)].lo + 1);
+        tr[rc(k)].val += tr[k].tag * (tr[rc(k)].hi - tr[rc(k)].lo + 1);
+        tr[lc(k)].tag += tr[k].tag;
+        tr[rc(k)].tag += tr[k].tag;
+        tr[k].tag = 0;
     }
 }
 
-// 区间更新
-void update(int k, int lo, int hi, llong val){
-    if(lo <= tree[k].lo && tree[k].hi <= hi){
-        tree[k].val += val * (tree[k].hi - tree[k].lo + 1);
-        tree[k].tag += val;
+void update(int lo, int hi, int c, int k = 1) {
+    if (lo <= tr[k].lo && tr[k].hi <= hi) {
+        tr[k].val += c * (tr[k].hi - tr[k].lo + 1);
+        tr[k].tag += c;
         return;
     }
     push_down(k);
-    int md = (tree[k].lo + tree[k].hi) / 2;
+    int md = (tr[k].lo + tr[k].hi) / 2;
     if (lo <= md)
-        update(lc(k), lo, hi, val);
+        update(lo, hi, c, lc(k));
     if(hi > md)
-        update(rc(k), lo, hi, val);
-    tree[k].val = tree[lc(k)].val + tree[rc(k)].val;
+        update(lo, hi, c, rc(k));
+    tr[k].val = tr[lc(k)].val + tr[rc(k)].val;
 }
 
-llong query(int k, int lo, int hi){
-    if(lo <= tree[k].lo && tree[k].hi <= hi){
-        return tree[k].val;
+llong query(int lo, int hi, int k = 1){
+    if(lo <= tr[k].lo && tr[k].hi <= hi){
+        return tr[k].val;
     }
     push_down(k);
-    int md = (tree[k].lo + tree[k].hi) / 2;
+    int md = (tr[k].lo + tr[k].hi) / 2;
     llong ans = 0;
     if (lo <= md)
-        ans += query(lc(k), lo, hi);
+        ans += query(lo, hi, lc(k));
     if (hi > md)
-        ans += query(rc(k), lo, hi);
+        ans += query(lo, hi, rc(k));
     return ans;
 }
 
-int kase;
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../../in.txt","r",stdin);
-    freopen("../../out.txt","w",stdout);
+    freopen("../in.txt","r",stdin);
+    freopen("../out.txt","w",stdout);
     #endif
 
     int n, m;
@@ -100,17 +98,19 @@ int main(){
     for (int i = 1; i <= n; i++){
         scanf("%d", &v[i]);
     }
-    build(1, 1, n);
-    int op, a, b, z;
+
+    build(1, n);
+    int op, k, a, b;
     for (int i = 0; i < m; i++) {
         scanf("%d", &op);
         if(op == 1){
-            scanf("%d %d %d", &a, &b, &z);
-            update(1, a, b, z);
-        } else {
+            scanf("%d %d %d", &a, &b, &k);
+            update(a, b, k);
+        } else if (op == 2) {
             scanf("%d %d", &a, &b);
-            printf("%lld\n", query(1, a, b));
+            printf("%lld\n", query(a, b));
         }
     }
+
     return 0;
 }

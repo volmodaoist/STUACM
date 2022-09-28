@@ -63,7 +63,7 @@ int query(int lo, int hi, int k = 1){
     return ans;
 }
 
-// 本题如果使用线段树来做需要开启 O2 优化才能通过
+// 本题如果使用线段树来做需要开启 O2 优化才能通过， 而且需要注意四倍空间的问题
 int kase;
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_
