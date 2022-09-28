@@ -68,7 +68,7 @@ int query(int k, int lo, int hi){
         return tree[k].val;
     }
     int md = (tree[k].lo + tree[k].hi) / 2;
-    int ans = -2e9;
+    int ans = 2e9;
     if (lo <= md)
         ans = min(ans, query(lc(k), lo, hi));
     if (hi > md)
