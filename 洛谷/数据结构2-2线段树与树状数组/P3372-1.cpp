@@ -41,12 +41,7 @@ inline LLong query(LLong tree[], int x){
 
 
 // 这是一道线段树模板题，但是利用数学式展开化简之后也能使用树状数组维护
-int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../../in.txt","r",stdin);
-    freopen("../../out.txt","w",stdout);
-    #endif
-
+int main(){
     while (scanf("%d %d", &n, &m) != EOF){
         for (int i = 1; i <= n; i++){
             scanf("%d", &arr[i]);

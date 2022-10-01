@@ -29,6 +29,8 @@
 - **树与图专题中，深度优先搜索与宽度优先搜索也会用到Stack、Queue作为辅助结构！**
 - **堆是堆，栈是栈，堆栈这种说法也不知道是谁开创的！**
 
+　
+
 
 
 #### (1.2) 内建非线性结构
@@ -72,10 +74,262 @@
 ### 🦉维护区间
 
 - 树状数组 (二进制索引树)
-- 线段树处理 RMQ 与RSQ 问题
+- 使用线段树维护区间信息查询问题
   - 为什么要开 4N 空间？
   - 为什么能开 2N 空间？
-- 可持久化先线段树 (主席树，可持久化结构的基础)
+  - 普通线段树 (下标线段树，维护区间最值或与总和)
+  - 权值线段树 (值域线段树，维护区间数据出现频率)
+- 可持久化先线段树 (主席树[^HJT]，可持久化结构的基础)
+  - 主席树的存储需要动态创建节点，而不可以采用堆式存储
+  - 主席树的区间查询 K-th 元素需要用到前缀和思想
+  - 主席树的更新与查询需要树上双指针同步搜索
+  - 主席树维护值域如果很大则需离散化
 
 
+
+|                             题目                             |                       描述                        |
+| :----------------------------------------------------------: | :-----------------------------------------------: |
+| LG3372. 线段树1<br />LG3373. 线段树2<br />LG6242. 线段树3<br />LG3374. 树状数组1<br />LG3368. 树状数组2<br /> | 洛谷模板题汇总，树状数组其实亦可用于维护 Kth 元素 |
+|                                                              |                                                   |
+|                                                              |                                                   |
+
+
+
+
+
+### 🌴 Trie 字典树
+
+|                             题目                             |                  描述                  |
+| :----------------------------------------------------------: | :------------------------------------: |
+| AC0143. 最大异或对<br />AC0144. 最长异或值路径<br />AC03485. 最大异或和<br />AC4507. 子数组异或和 | 使用 Trie 走相反零一方向求解最大异或值 |
+|                                                              |                                        |
+|                                                              |                                        |
+
+
+
+
+
+
+
+
+### 本文批注
+
+[^HJT]: 主席树，也称可持久化线段树，严格来讲也叫 **函数式线段树**，是基于线段树的一种数据结构，是由黄嘉泰引入国内的，尤其名字缩写HJT，因而这个数据结构也称主席树。
+
+
+
+
+
+### 本文提及的算法模板
+
+#### 带有懒标记的线段树
+
+```c++
+#define  lc(x)  (x<<1)
+#define  rc(x)  (x<<1|1)
+typedef struct _TreeNode{
+    int lo, hi;
+    llong v, s, m;
+} TreeNode;
+
+/**
+ * 本题模板来自于洛谷的 P3373 带有懒标记的乘法与加法线段树
+ * 整个模板最为复杂的地方就是向下传递懒标记的操作，注意先乘再加，
+ * 每次区间整体数乘更新加法标记的时候，需要连带更新加法标记，
+ * 每次向下传递加法标记之前，需要乘以父节点乘法标记，
+*/
+
+int v[MAXN], n, m, p;
+TreeNode tr[MAXN << 2];
+
+void build(int lo, int hi, int k = 1){
+    tr[k].lo = lo, tr[k].hi = hi, tr[k].s = 0, tr[k].m = 1;
+    if (tr[k].lo == tr[k].hi) {
+        tr[k].v = v[lo] % p;
+        return;
+    }
+    int md = lo + (hi - lo) / 2;
+    build(lo, md, lc(k));
+    build(md + 1, hi, rc(k));
+    tr[k].v = (tr[lc(k)].v + tr[rc(k)].v) % p;
+}
+
+// 向下传递懒标记，其中 mtg 代表乘法的标记，atg 代表加法标记，更新标记的时候先乘再加
+void push_down(int k){
+    if (tr[k].s != 0 || tr[k].m != 1){
+        tr[lc(k)].v = (tr[lc(k)].v * tr[k].m + (tr[k].s * (tr[lc(k)].hi - tr[lc(k)].lo + 1))) % p;
+        tr[rc(k)].v = (tr[rc(k)].v * tr[k].m + (tr[k].s * (tr[rc(k)].hi - tr[rc(k)].lo + 1))) % p;
+
+        // 先更新乘法标记再更新加法标记
+        tr[lc(k)].m = tr[lc(k)].m * tr[k].m % p;
+        tr[rc(k)].m = tr[rc(k)].m * tr[k].m % p;
+        tr[lc(k)].s = (tr[lc(k)].s * tr[k].m + tr[k].s) % p;
+        tr[rc(k)].s = (tr[rc(k)].s * tr[k].m + tr[k].s) % p;
+
+      	// 清空两个标记
+        tr[k].s = 0, tr[k].m = 1;
+    }
+}
+
+void update_mul(int lo, int hi, llong c, int k = 1){
+    if(lo <= tr[k].lo && tr[k].hi <= hi){
+        tr[k].v = tr[k].v * c % p;
+        tr[k].m = tr[k].m * c % p;
+        tr[k].s = tr[k].s * c % p;
+        return;
+    }
+    push_down(k);
+    int md = (tr[k].lo + tr[k].hi) / 2;
+    if(lo <= md) update_mul(lo, hi, c, lc(k));
+    if(hi > md)  update_mul(lo, hi, c, rc(k));
+    tr[k].v = (tr[lc(k)].v + tr[rc(k)].v) % p;
+}
+
+void update_add(int lo, int hi, int c, int k = 1){
+    if(lo <= tr[k].lo && tr[k].hi <= hi){
+        tr[k].s = (tr[k].s + c) % p;
+        tr[k].v = (tr[k].v + c * (tr[k].hi - tr[k].lo + 1)) % p;
+        return;
+    }
+    push_down(k);
+    int md = (tr[k].lo + tr[k].hi) / 2;
+    if (lo <= md) update_add(lo, hi, c, lc(k));
+    if (hi > md)  update_add(lo, hi, c, rc(k));
+    tr[k].v = (tr[lc(k)].v + tr[rc(k)].v) % p;
+}
+
+llong query(int lo, int hi, int k = 1){
+    if(lo <= tr[k].lo && tr[k].hi <= hi){
+        return tr[k].v;
+    }
+    push_down(k);
+    int md = (tr[k].lo + tr[k].hi) / 2;
+    llong ans = 0;
+    if (lo <= md)
+        ans = (ans + query(lo, hi, lc(k))) % p;
+    if(hi > md)
+        ans = (ans + query(lo, hi, rc(k))) % p;
+    return ans % p;
+}
+```
+
+
+
+#### 可持久化数组
+
+```c++
+#define  lc(x)  (tree[x].lc)
+#define  rc(x)  (tree[x].rc)
+typedef struct _TreeNode{
+    int lc, rc;
+    int val;
+}TreeNode;
+
+/**
+ * 本题来自于洛谷 P3919 可持久化数组，
+ * 可持久化数据结构的各个历史版本是不修改的，所谓修改历史版本其实是基于历史版本再开一个新版本修改，
+ * 可持久化的结构几乎都是基于线段树实现的，访问某个历史版本需要借助多棵线段树实现，空间开销较大，
+ * 朴素传统线段树需要存储 lo、hi 端点，如需节省空间其实亦可不存，只需传递区间端点参数即可，
+ * 朴素做法存起来主要是为了区分待查区间与树节点维护区间，这样不容易搞乱，
+*/
+TreeNode tree[MAXN << 5];
+int A[MAXN], root[MAXN], idx;
+
+void build(int lo, int hi, int &x){
+    x = ++idx;
+    if (lo == hi) {
+        tree[x].val = A[lo];
+        return;
+    }
+    int md = (lo + hi) / 2;
+    build(lo, md, lc(x));
+    build(md + 1, hi, rc(x));
+}
+
+// 使用 root[i] 记录ith 版本号对应的树节点, u 代表先前版本号的树节点, v 代表本次更新生成的新版本
+void update(int u, int &v, int lo, int hi, int i, int val){
+    v = ++idx, tree[v] = tree[u];
+    if (lo == hi) {
+        tree[v].val = val;
+        return;
+    }
+    int md = (lo + hi) / 2;
+    if (i <= md) {
+        update(lc(u), lc(v), lo, md, i, val);
+    } else {
+        update(rc(u), rc(v), md + 1, hi, i, val);
+    }
+}
+
+int query(int u, int lo, int hi, int i){
+    if(lo == hi){
+        return tree[u].val;
+    }
+    int md = (lo + hi) / 2;
+    if(i <= md){
+        return query(lc(u), lo, md, i);
+    } else {
+        return query(rc(u), md + 1, hi, i);
+    }
+}
+```
+
+
+
+#### 可持久化值域线段树
+
+```c++
+#define  lc(x)  (tree[x].lc)
+#define  rc(x)  (tree[x].rc)
+typedef struct _TreeNode{
+    int lc, rc;
+    int s;
+}TreeNode;
+
+/**
+ * 本题模板来自于洛谷 P3834 可持久化线段树
+ * 树节点存储的是左右孩子的索引，主席树维护数据的值域，如果值域过大可能需要另外离散化处理，
+ * 由于主席树需要重复利用那些未被修改的部分，故无法使用堆式存储，使用 idx 动态建点，
+*/
+TreeNode tree[MAXN];
+int v[MAXM], root[MAXN], idx;
+
+void build(int lo, int hi, int &x){
+    x = ++idx; 
+    if (lo == hi) {
+        return;
+    }
+    int md = (lo + hi) / 2;
+    build(lo, md, lc(x));
+    build(md + 1, hi, rc(x));
+}
+
+// u 记录先前版本的树节点，v 记录当前版本的树节点
+void update(int u, int &v, int lo, int hi, int val){
+    v = ++idx, tree[v] = tree[u], tree[v].s++;
+    if(lo == hi){
+        return;
+    }
+    int md = (lo + hi) / 2;
+    if(val <= md){
+        update(lc(u), lc(v), lo, md, val);
+    } else {
+        update(rc(u), rc(v), md + 1, hi, val);
+    }
+}
+
+// 返回 kth 元素所在的索引
+int query(int u, int v, int lo, int hi, int k){
+    if(lo == hi){
+        return lo;
+    }
+    int md = (lo + hi) / 2;
+    int s = tree[lc(v)].s - tree[lc(u)].s;
+    if (k <= s) {
+        return query(lc(u), lc(v), lo, md, k);
+    } else {
+        return query(rc(u), rc(v), md + 1, hi, k - s);
+    }
+}
+```
 

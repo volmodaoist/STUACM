@@ -1,4 +1,6 @@
-## 基本位运算操作
+
+
+###  基本位运算操作
 
 ```c++
 /* To set/turn on j-th item (0-based indexing) of the set */
@@ -52,7 +54,7 @@ for(int i = 0; i<(1<<n); ++i){
 
 
 
-## 关于STL工具的奇技淫巧
+### 关于STL工具的奇技淫巧
 
 ```c++
 //枚举排列组合,复杂度O(n!)
@@ -72,7 +74,7 @@ sort_heap(ALL(vec));
 
 
 
-## 检查有序性
+### 检查有序性
 
 ```c++
 is_sorted(ALL(container));
@@ -92,7 +94,7 @@ int main(){
 
 
 
-## 获取最值的索引
+### 获取最值的索引
 
 ```c++
 max_element(a, a + 5);
@@ -111,11 +113,9 @@ int main(){
 
 
 
-## 负索引迭代器
+### 负索引迭代器
 
 ```cpp
-
-
 #include<vector>
 #include<iostream>
 using namespace std;
