@@ -97,7 +97,7 @@
 
 
 
-### 🌴 Trie 字典树
+### 🌴 单词查找树 (Trie)
 
 |                             题目                             |                  描述                  |
 | :----------------------------------------------------------: | :------------------------------------: |
@@ -221,8 +221,8 @@ llong query(int lo, int hi, int k = 1){
 #define  lc(x)  (tree[x].lc)
 #define  rc(x)  (tree[x].rc)
 typedef struct _TreeNode{
-    int lc, rc;
-    int val;
+    int lo, hi, lc, rc;
+    llong val;
 }TreeNode;
 
 /**
@@ -236,7 +236,7 @@ TreeNode tree[MAXN << 5];
 int A[MAXN], root[MAXN], idx;
 
 void build(int lo, int hi, int &x){
-    x = ++idx;
+    x = ++idx, tree[x].lo = lo, tree[x].hi = hi;
     if (lo == hi) {
         tree[x].val = A[lo];
         return;
@@ -244,6 +244,7 @@ void build(int lo, int hi, int &x){
     int md = (lo + hi) / 2;
     build(lo, md, lc(x));
     build(md + 1, hi, rc(x));
+    tree[x].val = tree[lc(x)].val + tree[rc(x)].val;
 }
 
 // 使用 root[i] 记录ith 版本号对应的树节点, u 代表先前版本号的树节点, v 代表本次更新生成的新版本
@@ -259,18 +260,34 @@ void update(int u, int &v, int lo, int hi, int i, int val){
     } else {
         update(rc(u), rc(v), md + 1, hi, i, val);
     }
+    tree[v].val = tree[lc(v)].val + tree[rc(v)].val;
 }
 
-int query(int u, int lo, int hi, int i){
-    if(lo == hi){
+// 通常可持久化只需要实现单索引查询，因而树节点lo、hi，以及建树、更新push_up操作均可省略
+llong query(int u,  int i){
+    if(tree[u].lo == tree[u].hi && tree[u].lo == i){
         return tree[u].val;
     }
-    int md = (lo + hi) / 2;
+    int md = (tree[u].lo + tree[u].hi) / 2;
     if(i <= md){
-        return query(lc(u), lo, md, i);
+        return query(lc(u), i);
     } else {
-        return query(rc(u), md + 1, hi, i);
+        return query(rc(u),  i);
     }
+}
+
+// 实现区间查询，如果查询区间这张网覆盖了树节点维护的区间则直接返回
+llong query(int u,  int lo, int hi){
+    if (lo <= tree[u].lo && tree[u].hi <= hi) {
+        return tree[u].val;
+    }
+    llong ans = 0;
+		int md = (tree[u].lo + tree[u].hi) / 2;
+    if(lo <= md)
+        ans += query(lc(u), lo, hi);
+    if (hi > md)
+        ans += query(rc(u), lo, hi);
+    return ans;
 }
 ```
 
@@ -340,28 +357,36 @@ int query(int u, int v, int lo, int hi, int k){
 ```c++
 int v[MAXN], s[MAXN];
 int ver[MAXN << 5], root[MAXN << 5], son[MAXN << 5][2], idx;
+
 /**
- * 本题来自洛谷 P
+ * 本题来自洛谷 P4735 最大异或和，
+ * 给定一个区间[L,R], 要求找出一个p 使得 A[p]^...^A[n]^x 最大，将其转为前缀和问题之后，
+ * 相当于要在[L-1,R-1]之内，找一个 p-1 使得 s[p-1]^s[n]^x 最大值，本题难点在于会在末尾插入新元素，
+ * 因而若以每个[1..i]前缀作为版本维护可持久化 Trie，则在搜索[1,R-1]过程中, s.t.版本号大于等于 L-1 即可!
 */
 
-// 使用 u 记录先前版本的树节点，使用 v 记录当前版本树节点 
-void insert(int u, int v, int i){
+// 使用 u 记录先前版本树节点，使用 v 记录当前版本树节点, 标记当前版本树根的版本号，往下遍历时再逐点标号
+void insert(int u, int v, int i){			
     ver[v] = i;
     for (int k = 30; k >= 0; k--){
         int c = s[i] >> k & 1;
-        son[v][!c] = son[u][!c];				// 若非新节点则挂接旧版本
-        son[v][c] = ++idx;							// 若是新节点则创建新编号
-        u = son[u][c], v = son[v][c];		// 新旧版本双指针向下移动
-        ver[v] = i;											// 设置当前版本新节点编号
+      
+      // 若非新节点则挂接旧版本，若是新节点则创建新编号
+        son[v][!c] = son[u][!c];				
+        son[v][c] = ++idx;
+      
+      	// 新旧版本双指针向下移动，移动之后再设置当前版本新节点编号
+        u = son[u][c], v = son[v][c];		
+        ver[v] = i;											
     }
 }
+
 int query(int u, int lo, int val){
     int ans = 0;
     for (int k = 30; k >= 0; k--) {
         int c = val >> k & 1;
         if(ver[son[u][!c]] >= lo){
-            u = son[u][!c];
-            ans += 1 << k;
+            u = son[u][!c], ans += 1 << k;
         } else {
             u = son[u][c];
         }
