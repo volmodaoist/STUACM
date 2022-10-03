@@ -8,6 +8,7 @@ __pycache__/
 
 # 忽略这个特殊文件
 *.DS_Store*
+*草稿*
 
 # Test module
 *stdc++.h*

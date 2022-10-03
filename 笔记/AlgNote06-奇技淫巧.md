@@ -3,51 +3,51 @@
 ###  基本位运算操作
 
 ```c++
-/* To set/turn on j-th item (0-based indexing) of the set */
+// 开启集合的第j位元素的状态， To turn on j-th item  of the set
 S |= (1<<j);
 
-/* To check if the j-th item of the set is on */
-T = S & (1<<j);
-
-/* To toggle (flip the status of) the j-th item of the set */
-S ^= (1<<j);
-
-/* To clear/turn off the j-th item of the set */
+// 关闭集合的第j位元素的状态， To turn off the j-th item of the set
 S &= ~(1<<j);
 
-/* To get the value of the least significant bit of S */
-T = ((S) & (-S));
+// 检查集合S第j位元素的状态，To check if the j-th item of the set is on
+T = S & (1<<j);
 
-/* To turn on all bits in a set of size n by Shift */
-S = (1<<n) - 1;
+// 翻转集合的第j位元素的状态，To toggle the status of the j-th item of the set
+S ^= (1<<j);
 
-/* To enumerate all proper subsets of a given a bitmask */
+// 激活一个n元素激活集合所有位, To turn on all bits in a set of size n by Shift
+S = (1 << n) - 1;
+
+// 获取末尾1， To get the lowest bit-wise 1 in Integer
+#define lowbit(x)  ((x)&(-x))
+
+// 枚举所有子集, To enumerate all proper subsets of a given a bitmask
 int mask = GivenMask;
-for(int subset = mask; subset; subset = (mask & subset - 1)){
+for(int s = mask; s; s = (mask & s - 1)){
     cout<< subset <<endl;
 }
 
-/* To get the lowest bit-wise 1 in Integer*/
-#define lowbit(x)  ((x)&(-x))
-
-//Enumerate all bit-wise 1 in Integer (Method 1)
-for(int i = 0;i<(1<<n);++i){
+// 在整数中按位枚举所有1(方法1), Enumerate all bit-wise 1 in Integer (Method 1)
+for(int i = 0; i < (1<<n) ;++i){
     for(int j = 0; j<n; ++j){
         if(i & (1<<j)){
-			...
+          ...
         }
     }
 }
 
-//Enumerate all bit-wise 1 in Integer (Method 2)
+// 在整数中按位枚举所有1(方法2),  Enumerate all bit-wise 1 in Integer (Method 2)
 for(int i = 0; i<(1<<n); ++i){
     int t = i;
     while(t){
-		int x = lowbit(x);
+      	int x = lowbit(x);
         int j = __builtin_ctz(x);
-        t-=x;
+        t -= x;
     }
 }
+
+// 快速判断一个数n是否满足 n = 2^k
+bool is_pow2k  = ((n & (n - 1)) == 0);
 ```
 
 
