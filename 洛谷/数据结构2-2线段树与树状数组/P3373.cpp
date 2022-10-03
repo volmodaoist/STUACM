@@ -45,7 +45,6 @@ void build(int lo, int hi, int k = 1){
     build(lo, md, lc(k));
     build(md + 1, hi, rc(k));
     tr[k].val = (tr[lc(k)].val + tr[rc(k)].val) % p;
-    // printf("lo = %d, hi = %d, val = %lld\n", lo, hi, tr[k].val);
 }
 
 void push_down(int k){

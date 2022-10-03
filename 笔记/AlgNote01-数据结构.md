@@ -102,11 +102,17 @@
 
 |                             题目                             |                             描述                             |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                         LG1816. 忠诚                         |              维护最小值区间的稀疏表、线段树裸题              |
 | LG3372. 线段树1<br/>LG3373. 线段树2<br/>LG6242. 线段树3<br/>LG3374. 树状数组1<br/>LG3368. 树状数组2<br/> | 洛谷模板题汇总，树状数组其实亦可用于维护 Kth 元素，但是洛谷没有相关模板 |
+|   LG1471. 方差<br/>P2894. Hotel<br/>CF527C. Glass Carving    |                           模版变体                           |
+|                       LG4588. 数学运算                       | 初看以为是一个乘法逆元问题，但是数据与模数不互质，本题应按时间轴建立线段树维护 |
 |     LG3919. 可持久化数组<br/>LG3834. 可持久化线段树<br/>     |     能够熟练掌握线段树之后，可以进阶可持久化数据结构模板     |
+|                        LG2068. 统计和                        | 树状数组、单索引修改线段树裸题，本题可用于联系zkw线段树板子  |
 |                      LG4735. 最大异或和                      |                        可持久化字典树                        |
 |                      LG1383. 高级打字机                      | 可持久化数组变体，由于插入、撤销操作均使得长度发生改变，因而需要另开一个数组维护不同版本的数组长度 |
 |                     LG3567. KUR-Couriers                     | 值域线段树变体，如果某元素出现次数大于区间长度一半，则其所在子树元素数乘二之后严格大于区间长度 |
+|           LG3870. 开关<br/>LG2846. Light Switching           |                                                              |
+|                       LG2023. 维护序列                       |                                                              |
 
 
 
@@ -233,11 +239,157 @@ llong query(int lo, int hi, int k = 1){
 
 
 
-### 永久化标记的线段树
+#### 标记永久化的线段树
 
 ```c++
-// 朴素的线段树采用了区间覆盖式的写法，标签永久化的线段树通常使用区间相等的写法
+#define  lc(x)  (x<<1)
+#define  rc(x)  (x<<1|1)
+typedef struct _TreeNode{
+    int lo, hi;
+    llong val, tag;
+} TreeNode;
 
+/**
+ * 朴素的线段树采用了区间覆盖式的写法，标记永久化的线段树通常使用区间相等的写法,
+ * 由于覆盖式写法更加通用，可扩展更好，故必须掌握，对于纯粹加法或乘法，标签永久化方法优点是代码量少，
+ * 然而对于 洛谷 P3373 这道加乘混合的区间维护线段树模板题，使用下推标记的方法代码量更少，逻辑更容易实现！
+*/ 
+
+int A[MAXN];
+TreeNode tree[MAXN << 1];
+
+void build(int lo, int hi, int k = 1){
+    tree[k].lo = lo, tree[k].hi = hi, tree[k].tag = 0;
+    if (tree[k].lo == tree[k].hi) {
+        tree[k].val = A[lo];
+        return;
+    }
+    int md = lo + (hi - lo) / 2;
+    build(lo, md, lc(k));
+    build(md + 1, hi, rc(k));
+    tree[k].val = tree[lc(k)].val + tree[rc(k)].val;
+}
+
+// 如果更新区间恰好等于当前树节点维护的区间，则把元素加到标签上面，否则加到数值上面
+void update(int lo, int hi, int c, int k = 1) {
+    if (tree[k].lo == lo && tree[k].hi == hi) {
+        tree[k].tag += c;
+        return;
+    }
+    tree[k].val += (hi - lo + 1) * c;
+    int md = (tree[k].lo + tree[k].hi) / 2;
+  	
+  	// 下列的更新操作的 hi <= md 与 lo > md 看起来有点诡异，
+    // 其实这里的 md 是指树节点维护区间的中值，lo、hi 是更新区间的两端
+    if (hi <= md) {
+        update(lo, hi, c, lc(k));
+    }else if(lo > md){
+        update(lo, hi, c, rc(k));
+    } else {
+        update(lo, md, c, lc(k)), update(md + 1, hi, c, rc(k));
+    }
+}
+
+
+// 使用一个变量在递归过程中传递一下树上路径的标签和，
+llong query(int lo, int hi, llong c, int k = 1){
+    c += tree[k].tag; 
+    if(tree[k].lo == lo && tree[k].hi == hi){
+        return tree[k].val + c * (hi - lo + 1);
+    }
+    // 同理于 update，lo、hi 是查询区间的两端，md 是指树节点维护区间的中值，二者描述的主体不一样
+    int md = (tree[k].lo + tree[k].hi) / 2;
+    if (hi <= md) {
+        return query(lo, hi, c, lc(k));
+    } else if (lo > md) {
+        return query(lo, hi, c, rc(k));
+    }else{
+        return query(lo, md, c, lc(k)) + query(md + 1, hi, c, rc(k));
+    }
+}
+```
+
+
+
+
+
+
+
+#### 非递归线段树单坐标修改
+
+```cpp
+#define  lc(x)  (x<<1)
+#define  rc(x)  (x<<1|1)
+/**
+ * 非递归线段树也称 zkw 线段树，最大的优点就是代码量很少，写起来有一种在写树状数组的感觉，
+ * 本题模版来自洛谷 P2068 
+*/
+
+int n, m, N = 1, v[MAXN];
+llong tree[MAXN << 2], mark[MAXN << 2];
+
+void build(){
+    for (N = 1; N <= n; N <<= 1);
+    for (int i = 1; i <= n; i++)
+        tree[i + N] = v[i];
+    for (int i = N - 1; i; --i){
+        tree[i] = tree[lc(i)] + tree[rc(i)];
+    }
+}
+
+void update(int x, int d){
+    for (int i = x + N; i; i >>= 1){
+      	tree[i] += d;
+    }
+}
+
+int query(int lo, int hi){
+    int ans = 0;
+    for (lo += N - 1, hi += N + 1; lo ^ hi ^ 1; lo >>= 1, hi >>= 1){
+        if (~lo & 1) ans += tree[lo ^ 1]; 
+        if (hi & 1) ans += tree[hi ^ 1]; 
+    }
+    return ans;
+}
+```
+
+
+
+#### 非递归线段树区间修改
+
+```c++
+/**
+ * 如果 zkw 线段树需要支持区间修改，则需另开一个标记数组 mark，由于下推标签不方便，故采用标签永久化手段，
+ * 模板中的加法也能改成乘法、最值，但是如果涉及加乘混合运算，标签永久化实现起来会很麻烦，
+*/
+
+void update(int lo, int hi, int val){
+    int len = 1, cntl = 0, cnth = 0;
+    for (lo += N - 1, hi += N + 1; lo ^ hi ^ 1; lo >>= 1, hi >>= 1, len <<= 1) {
+        tree[lo] += cntl * val, tree[hi] += cnth * val;
+        if(~lo & 1) tree[lo ^ 1] += val * len, mark[lo ^ 1] += val, cntl += len;
+        if(hi & 1) tree[hi ^ 1] += val * len, mark[hi ^ 1] += val, cnth += len;
+    }
+    while(lo){
+        tree[lo] += cntl * val, tree[hi] += cnth * val;
+        lo >>= 1, hi >>= 1;
+    }
+}
+
+llong query(int lo, int hi){
+    llong ans = 0;
+    int len = 1, cntl = 0, cnth = 0;
+    for (lo += N - 1, hi += N + 1; lo ^ hi ^ 1; lo >>= 1, hi >>= 1, len <<= 1) {
+        ans += cntl * mark[lo] + cnth * mark[hi];
+        if (~lo & 1) ans += tree[lo ^ 1], cntl += len;
+        if (hi & 1) ans += tree[hi ^ 1], cnth += len;
+    }
+    while(lo){
+        ans += cntl * mark[lo] + cnth * mark[hi];
+        lo >>= 1, hi >>= 1;
+    }
+    return ans;
+}
 ```
 
 

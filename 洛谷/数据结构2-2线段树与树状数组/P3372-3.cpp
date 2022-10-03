@@ -57,6 +57,8 @@ void update(int lo, int hi, int c, int k = 1) {
     }
     tr[k].val += (hi - lo + 1) * c;
     int md = (tr[k].lo + tr[k].hi) / 2;
+    
+    // 下列的更新操作的 hi <= md 与 lo > md 看起来有点诡异，但是这里的 md 是指树节点维护区间的中值，lo、hi 是更新区间的两端
     if (hi <= md) {
         update(lo, hi, c, lc(k));
     }else if(lo > md){
@@ -75,6 +77,8 @@ llong query(int lo, int hi, llong c, int k = 1){
         return tr[k].val + c * (hi - lo + 1);
     }
     int md = (tr[k].lo + tr[k].hi) / 2;
+
+    // 同理于 update 操作中，此处的 lo、hi 是查询区间的两端，md 是指树节点维护区间的中值，二者描述的主体不一样
     if (hi <= md) {
         return query(lo, hi, c, lc(k));
     } else if (lo > md) {
