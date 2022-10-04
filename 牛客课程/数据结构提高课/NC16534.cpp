@@ -30,6 +30,8 @@ int solve(int lo, int hi, int s){
     if(lo > hi) return 0;
     if (lo == hi) return block[lo] - s;
     int ans = 0, idx = lo;
+    
+    // 此处的最小值查询能用稀疏表预处理
     for (int i = lo; i <= hi; i++) {
         if(block[idx] > block[i]){
             idx = i;
