@@ -91,7 +91,7 @@ int main(){
 
 本文给出的练习题都带有标识号，标识号是由平台简称以及题号构成的，
 
-比如AC0001 是指 AcWing平台之中，题号0001指定的题目，在线测评平台简称详见下表：
+比如 AC0001 是指 AcWing平台之中，题号0001指定的题目，在线测评平台简称详见下表：
 
 |  缩写&简称   |                         在线测评平台                         |
 | :----------: | :----------------------------------------------------------: |
@@ -99,3 +99,9 @@ int main(){
 |  PKU 或 POJ  | [北京大学在线测评平台](http://poj.org/problemlist?volume=1)  |
 | AcWing 或 AC |    [AcWing 在线测评平台](https://www.acwing.com/problem/)    |
 |   LG 或 P    |      [洛谷题单](https://www.luogu.com.cn/training/list)      |
+
+本项目的笔记建议配合 MathJax 3 Plugin for Github 浏览器插件阅读，不然公式可能无法渲染出来，
+
+或者您可以直接把这个项目下载放在本地之后使用 Typora 阅读！
+
+$f(x)$
