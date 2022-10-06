@@ -100,8 +100,6 @@ int main(){
 | AcWing 或 AC |    [AcWing 在线测评平台](https://www.acwing.com/problem/)    |
 |   LG 或 P    |      [洛谷题单](https://www.luogu.com.cn/training/list)      |
 
-本项目的笔记建议配合 MathJax 3 Plugin for Github 浏览器插件阅读，不然公式可能无法渲染出来，
+本项目的笔记建议使用Chrome或Edge浏览器，配合 MathJax 3 Plugin for Github 插件阅读，
 
-或者您可以直接把这个项目下载放在本地之后使用 Typora 阅读！
-
-$f(x)$
+否则公式可能无法渲染出来，或者您可以直接把这个项目下载放在本地之后，使用 Typora 打开阅读！
