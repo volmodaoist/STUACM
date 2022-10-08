@@ -36,6 +36,11 @@ typedef struct _TreeNode{
 TreeNode tr[MAXN];
 int root, idx, n, m, x, a, b;
 
+int new_node(int p, int v){
+    tr[++idx].v = v, tr[idx].p = p, tr[idx].siz = 1, tr[idx].tag = 0;
+    return idx;
+}
+
 void push_up(int x){
     tr[x].siz = tr[tr[x].s[0]].siz + tr[tr[x].s[1]].siz + 1;
 }
@@ -119,9 +124,8 @@ void insert(int v){
     while(x && tr[x].v != v){
         p = x, x = tr[x].s[v > tr[x].v];
     }
-    x = ++idx;
+    x = new_node(p, v);
     tr[p].s[v > tr[p].v] = x;
-    tr[x].init(p, v);
     splay(x, 0);
 }
 
