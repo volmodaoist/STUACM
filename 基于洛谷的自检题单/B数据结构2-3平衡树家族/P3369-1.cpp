@@ -183,8 +183,8 @@ int main(){
         if (op == 2) del(x);
         if (op == 3) printf("%d\n", get_rank(x));
         if (op == 4) printf("%d\n", get_val(x + 1));
-        if(op == 5) printf("%d\n", tr[get_prev(x)].v);
-        if(op == 6) printf("%d\n", tr[get_succ(x)].v);
+        if (op == 5) printf("%d\n", tr[get_prev(x)].v);
+        if (op == 6) printf("%d\n", tr[get_succ(x)].v);
     }
     return 0;
 }

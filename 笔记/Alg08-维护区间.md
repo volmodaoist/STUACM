@@ -69,7 +69,23 @@
 
 ### ⚔️平衡树家族例题选讲
 
-不同于 AVL、红黑树，Splay 通过双旋操作保持均摊复杂度 $O(\log N)$，由于复杂度是均摊的，并非真正意义的平衡，因而Splay 无可持久化，可持久化最常用的平衡树是 FHQ Treap。平衡树的主要作用是查询元素 rank、以及 kth 元素，这个需求能用可持久化值域线段树
+不同于 AVL、红黑树，Splay 通过双旋操作保持均摊复杂度 $O(\log N)$，由于复杂度是均摊的，并非真正意义的平衡，因而Splay 无可持久化，可持久化最常用的平衡树是 FHQ Treap。平衡树的主要作用是查询元素 rank、以及 kth 元素，这个需求亦可使用可持久化值域线段树。
+
+- Splay 需要注意的细节	
+  - 此端与彼端不可写死为左右端
+  - 每个操作结束之后都要伸展一趟
+  - 查找与插入内部进行元素比较走向左侧或右侧
+  - 需要插入正负无穷大哨兵解决最值的前驱与后继
+- Treap 需要注意的细节
+  - 每次分裂之后必须合并，且注意更新根节点
+  - 合并是按照随机生成的 key 关键字合并，元素越多越不容易发生退化
+  - 重复元素会以不同节点形式会出现于左侧子树，因而获取 kth 元素的判定不同于 Splay
+
+|        题目        |                     思路描述                      |
+| :----------------: | :-----------------------------------------------: |
+| LG3369. 普通平衡树 | 模板题，维护kth、rank、前驱、后继，动态插点与删点 |
+| LG3369. 文艺平衡树 |  模板题，通过懒标记改造平衡树，使其维护序列翻转   |
+|                    |                                                   |
 
 
 
@@ -522,6 +538,20 @@ int merge(int x, int y){
     }
 }
 
+void ins(int v){
+    int x, y, z;
+    split(root, v, x, z);
+    y = new_node(v);
+    root = merge(merge(x, y), z);
+}
+
+void del(int v){
+    int x, y, z;
+    split(root, v, x, z), split(x, v - 1, x, y);
+    y = merge(lc(y), rc(y));
+    root = merge(merge(x, y), z);
+}
+
 // 查找第K大元素是哪一个树节点
 int get_kth(int p, int k){
     if(k <= tr[lc(p)].siz){
@@ -541,6 +571,24 @@ int get_rank(int v){
     root = merge(x, y);
     return ret;
 }
+
+// 因为约定左树小于等于，所以分裂要用 v - 1
+int get_prev(int v){
+    int x, y;
+    split(root, v - 1, x, y);
+    int p = get_kth(x, tr[x].siz);
+    root = merge(x, y);
+    return p;
+}
+
+// 因为约定右树严格大于，所以分裂使用 v 即可
+int get_succ(int v){
+    int x, y;
+    split(root, v, x, y);
+    int p = get_kth(y, 1);
+    root = merge(x, y);
+    return p;
+}
 ```
 
 
@@ -549,8 +597,72 @@ int get_rank(int v){
 
 #### BBST-01Trie
 
+```c++
+// 同时满足二叉平衡查找树、线段树、平衡树性质，具有极高的可扩展性， 
+// 与一般 Trie 一样，使用零代表空指针，同时虚设一个超级节点 idx = 1 作为所有元素第一层，
+int idx = 1;
+int tr[MAXN << 5][2], siz[MAXN << 5];
+
+int new_node(){
+    siz[++idx] = tr[idx][0] = tr[idx][1] = 0;
+    return idx;
+}
+
+// 插入元素 x，插入数量 c， 如果需要删除则设 c = -1
+void ins(int x, int c){
+    int u = 1;
+    for (int i = 30; i >= 0; i--){
+        int v = (x >> i) & 1;
+        if(!tr[u][v]){
+            tr[u][v] = new_node();
+        }
+        u = tr[u][v];
+        siz[u] += c;
+    }
+}
+
+int get_kth(int k){
+    int u = 1, ans = 0;
+    for (int i = 30; i >= 0; i--){
+        if (siz[tr[u][0]] >= k){
+            u = tr[u][0];
+        }else{
+            ans |= (1 << i), k -= siz[tr[u][0]];
+            u = tr[u][1];
+        }
+    }
+    return ans;
+}
+
+int get_rank(int v){
+    int u = 1, ans = 0;
+    for (int i = 30; i >= 0; i--){
+        if ((v >> i) & 1){
+            ans += siz[tr[u][0]];
+            u = tr[u][1];
+        }else{
+            u = tr[u][0];
+        }
+    }
+    return ans;
+}
+
+/**
+ *     注意 01-Trie 平衡树的 rank 是从零开始计算的，但是 kth 从一开始计算，本题给出 1-base 序列，
+ *  因此 rank 返回之前需要 + 1，同时由于 01-Trie 返回节点所在的索引是不太方便的，其获取前驱与后继
+ *  主要依赖 rank、kth 两个操作，前驱也即寻找 v 前一个排名，后继也即寻找 v + 1 第一个排名，记得+1
+ */ 
+
+int get_prev(int v){
+	return get_kth(get_rank(v));
+}
+
+int get_succ(int v){
+    return get_kth(get_rank(v + 1) + 1);
+}
 ```
-```
+
+
 
 
 
