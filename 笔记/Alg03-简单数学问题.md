@@ -57,6 +57,9 @@ for(int i = 0; i < (1<<n) ;++i){
     }
 }
 
+x &= x - 1; // 最低位 1 变成 0
+x |= x + 1; // 最低位 0 变成 1
+
 // 在整数中按位枚举所有1(方法2),  Enumerate all bit-wise 1 in Integer (Method 2)
 for(int i = 0; i<(1<<n); ++i){
     int t = i;
