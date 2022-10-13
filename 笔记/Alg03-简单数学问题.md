@@ -74,3 +74,15 @@ for(int i = 0; i<(1<<n); ++i){
 bool is_pow2k  = ((n & (n - 1)) == 0);
 ```
 
+```c++
+// 使用位运算实现加减法，编译器未必支持负数的移位运算，因而转为无符号整数会更保险一些
+int add_sub(int a, int b) {
+  while(b){
+    int t = a ^ b;
+    b = (unsigned int)(a & b) << 1;
+    a = t;
+  }
+  return a;
+}
+```
+

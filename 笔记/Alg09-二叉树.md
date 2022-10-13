@@ -195,7 +195,7 @@ void dfs(int u, int father){
         mxs = max(mxs, siz[v]); // 当前节点底部挂接的各个子树的大小，其实就是各子节点为根的向下生长子树
         siz[u] += siz[v];
     }
-    mxs = max(mxs, n - siz[u]); // 当前节点顶部挂接的一个子树的大小，其实就是以父节点为根的向上生长的子树
+    mxs = max(mxs, n - siz[u]); // 当前节点顶部挂接的一个子树的大小，其实就是以父节点为根的向上生长子树
     if(mxs < ans){
         ans = mxs, pos = u;		  
     }
