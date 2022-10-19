@@ -23,3 +23,27 @@
 |  AC03485. 最大异或和   |                                        |
 | AC0144. 最长异或值路径 |                                        |
 |   LG4735. 最大异或和   |             可持久化字典树             |
+
+
+
+### 内置的STL字符处理技巧
+
+内置的 STL 其实能够处理很多乱七八糟的字符串读入问题，例如我们经常看到Python语音使用的 split 函数，这种按照某个字符把串分段的函数，其实C++能用 getline 实现。
+
+```c++
+// Python 语言的写法 str.split('/')，下面是等价的 c++STL 写法，
+string str;
+getline(cin, str, '/');
+
+// 这种写法不仅适用于 cin 而且能用 istringstream 对象来对一般字符串如是操作
+istringstream iss(str);
+while(getline(iss, str, '/')){
+  	cout << str << endl;
+}
+```
+
+|       题目       |                    思路描述                     |
+| :--------------: | :---------------------------------------------: |
+| LC0071. 简化路径 | 使用 istringstream 与getline 分割字符串的模板题 |
+|                  |                                                 |
+|                  |                                                 |

@@ -2,10 +2,14 @@
 
 - 二叉树具有何种性质
   - 如何建立一棵二叉树
-  - 如何遍历一棵二叉树，DFS: 前序/中序后序，以及 BFS 层序
+  - 如何遍历一棵二叉树，DFS: 前序/中序/后序，以及 BFS 层序
   
+    - 普通递归遍历 & 带有空针标记的栈遍历
     - 如何推广多叉树的中序遍历 (参考树重心问题)
     - 如何根据中序遍历序列与另外一个序列反推树结构
+    - 其它二叉树递归技巧
+      - 同层跨子树如何连接
+      - 同子树跨层如何连接
   - 如何建立一棵(多叉)无根树
   
 - 二叉树的基本属性
@@ -66,6 +70,18 @@
 
 
 
+
+
+### ⚔️树遍历技巧选讲
+
+|                             题目                             |                思路描述                |
+| :----------------------------------------------------------: | :------------------------------------: |
+| LC0116.填充每个节点的右侧指针<br/>LC0117.填充每个节点的右侧指针II<br/> | 当前层 next 指针域更新下一层跨子树连接 |
+|                                                              |                                        |
+|                                                              |                                        |
+
+
+
 ### ⚔️树形动态规划选讲
 
 以下三道题是树形动态规划的基础，很多问题均是下列问题的延伸与拓展！
@@ -81,6 +97,46 @@
 
 
 ### 🦉本文提到的算法模板
+
+####  二叉树遍历
+
+```c++
+void xxx_orderTraversal(TreeNode* root){
+  	if(root == NULL)
+      	return;
+  // 前序遍历...
+  xxx_orderTraversal(root->left);
+  // 中序遍历...
+  xxx_orderTraversal(root->right);
+  // 后序遍历...
+}
+```
+
+```c++
+// 使用栈模拟递归的过程，由于LIFO特点，压入节点的时候记得顺序要反转一下
+vector<int> xxx_orderTraversal(TreeNode* root) {
+    vector<int> ans;
+    stack<TreeNode*> stk;
+    if(root != NULL)
+        stk.push(root);
+    while(!stk.empty()){
+        auto curr  = stk.top(); stk.pop();
+        if(curr != NULL){
+          	// 后序遍历...
+            if(curr->right) stk.push(curr->right);
+          	// 中序遍历...
+            if(curr->left) stk.push(curr->left);
+            // 前序遍历...
+        }else{
+            curr = stk.top(); stk.pop();
+            ans.push_back(curr->val);
+        }
+    }
+    return ans;
+}
+```
+
+
 
 #### 树直径问题
 
@@ -293,6 +349,7 @@ llong query_subtree(int u){
     return query(id[u], id[u] + siz[u] - 1) % p;
 }
 ```
+
 
 
 

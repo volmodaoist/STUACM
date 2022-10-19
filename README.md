@@ -99,7 +99,35 @@ int main(){
 |  PKU 或 POJ  | [北京大学在线测评平台](http://poj.org/problemlist?volume=1)  |
 | AcWing 或 AC |    [AcWing 在线测评平台](https://www.acwing.com/problem/)    |
 |   LG 或 P    |      [洛谷题单](https://www.luogu.com.cn/training/list)      |
+|  LC 或 LCP   | [力扣题单与力扣杯竞赛真题](https://leetcode.cn/problemset/all/) |
 
 本项目的笔记建议使用Chrome或Edge浏览器，配合 MathJax 3 Plugin for Github 插件阅读，
 
 否则公式可能无法渲染出来，或者您可以直接把这个项目下载放在本地之后，使用 Typora 打开阅读！
+
+
+
+
+
+### 竞赛真题VP推荐
+
+- CF-Contest
+  - https://codeforces.com/contest/577
+
+- CF-Gym
+
+  - https://codeforces.com/gym/103640
+
+  - https://codeforces.com/gym/103447
+
+  - https://codeforces.com/gym/103443
+
+  - https://codeforces.com/gym/103119
+
+  - https://codeforces.com/gym/103102
+
+  - https://codeforces.com/gym/102984
+
+  - https://codeforces.com/gym/102920
+  
+  - https://codeforces.com/gym/102822
