@@ -67,6 +67,7 @@
 |                     LG3567. KUR-Couriers                     | 值域线段树变体，如果某元素出现次数大于区间长度一半，则其所在子树元素数乘二之后严格大于区间长度 |
 |           LG3870. 开关<br/>LG2846. Light Switching           |                                                              |
 |                       LG2023. 维护序列                       |                                                              |
+|                     LC0053. 最大子数组和                     | 本题贪心，动规均可，使用线段树亦可维护[最大子段和](https://leetcode.cn/problems/maximum-subarray/solution/zui-da-zi-xu-he-by-leetcode-solution/)，且本题只需建树 |
 
 
 
