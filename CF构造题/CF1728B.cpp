@@ -26,8 +26,6 @@ typedef tuple<int, int, int> iii;
 
 
 // https://codeforces.com/contest/1728/problem/B
-
-
 int kase, n;
 int main() {
     #ifdef _OJ_ONLINE_JUDGE_
