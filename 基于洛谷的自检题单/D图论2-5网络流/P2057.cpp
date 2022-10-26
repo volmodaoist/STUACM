@@ -22,68 +22,60 @@ typedef tuple<int, int, int> iii;
 #define  ctz   __builtin_ctz
 #define  fi    first
 #define  se    second
-#define  MAXN  300005
+#define  MAXN  100005
 
-// 此处一个细节便是 idx = 1 而非 0
+int n, m, a, b, c, pos, src, dst;
 int head[MAXN], vex[MAXN], wgt[MAXN], nxt[MAXN], idx = 1;
-int dep[MAXN], curr[MAXN], src, dst;
-int n, m, a, b, c;
+int dep[MAXN], curr[MAXN];
 
-// mf[v] 存储源点到达顶点 v 所允许的最大流量
-void add_edge(int x, int y, int w) {
-    vex[++idx] = y, wgt[idx] = w, nxt[idx] = head[x], head[x] = idx;
+void add_edge(int a, int b, int w) {
+    vex[++idx] = b, wgt[idx] = w, nxt[idx] = head[a], head[a] = idx;
 }
 
-//深度初始化-1 也是可以的
 bool bfs(){
     memset(dep, 0, sizeof(dep));
     memcpy(curr, head, sizeof(head));
-
     dep[src] = 1;
 
     queue<int> q;
     q.push(src);
 
     while(q.size()){
-        int u  = q.front();q.pop();
-        for(int i = head[u]; i; i = nxt[i]) {
+        int u = q.front(); q.pop();
+        for (int i = head[u]; i; i = nxt[i]){
             int v = vex[i], w = wgt[i];
-            if (dep[v] == 0 && w > 0) {
+            if (dep[v] == 0 && w > 0){
                 dep[v] = dep[u] + 1;
                 q.push(v);
-                if (v == dst) return true;
             }
         }
     }
-    return false;
+    return dep[dst] != 0;
 }
 
-// 对于顶点 u 函数空间，iflow 可以视为流入量，oflow 可以视为流出量
-llong dfs(int u, int iflow = 2e9){
+int dfs(int u, int iflow = 2e9){
     if(u == dst){
         return iflow;
     }
-    llong oflow = 0;
-    for (int i = curr[u]; i && iflow; i = nxt[i]){
+    int oflow = 0;
+    for (int i = curr[u]; i && iflow; i = nxt[i]) {
         curr[u] = i;
         int v = vex[i], w = wgt[i];
-        if (dep[v] == dep[u] + 1 && w > 0) {
-            // 个别模板会把参数 iflow 当做常量，然后递归 dfs 传参的时候写成相减形式
-            llong ret = dfs(v, min(iflow, w));
+        if(dep[v] == dep[u] + 1 && w > 0){
+            int ret = dfs(v, min(iflow, w));
             wgt[i] -= ret, oflow += ret;
             wgt[i ^ 1] += ret, iflow -= ret;
         }
     }
-    
-    return oflow ? oflow : (dep[u] = 0); // 残枝优化
+    return oflow ? oflow : (dep[u] = 0);
 }
 
-llong Dinic(){
-    llong flow = 0;
-    while(bfs()){
-        flow += dfs(src);
+int dinic(){
+    int ans = 0;
+    while (bfs()){
+        ans += dfs(src);
     }
-    return flow;
+    return ans;
 }
 
 int main() {
@@ -92,12 +84,22 @@ int main() {
     freopen("../../out.txt","w",stdout);
     #endif
 
-    scanf("%d %d %d %d", &n, &m, &src, &dst);
-    for (int i = 0; i < m; i++){
-        scanf("%d %d %d", &a, &b, &c);
-        add_edge(a, b, c);
-        add_edge(b, a, 0);
+    scanf("%d %d", &n, &m);
+    src = 0;
+    dst = n + 1;
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &pos);
+        if (pos){
+            add_edge(src, i, 1); add_edge(i, src, 0);
+        }else{
+            add_edge(i, dst, 1); add_edge(dst, i, 0);
+        }
     }
-    printf("%lld\n", Dinic());
+    for (int i = 0; i < m; i++){
+        scanf("%d %d", &a, &b);
+        add_edge(a, b, 1); add_edge(b, a, 0);
+        add_edge(b, a, 1); add_edge(a, b, 0);
+    }
+    printf("%d\n", dinic());
     return 0;
 }

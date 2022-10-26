@@ -58,7 +58,7 @@
 - **图论对偶定理汇总**
   - *Dilworth*：任意偏序集的最长链与最短链个数等于其各自反链的长度！
   -  *König*：二分图中的最大匹配数等于这个图中的最小点覆盖数！
-  - *MaxFlowMinCut*：最大流等于最小割！
+  - *MaxFlowMinCut*：最大流的流量等于最小割的容量！
 
 
 
@@ -66,7 +66,7 @@
 
 ### 🦉网络流算法模板
 
-#### Residual Graph Built
+#### Res-Graph-Built
 
 ```c++
 typedef long long llong;
@@ -142,36 +142,35 @@ int mf[MAXN], prec[MAXN], src, dst;
 bool bfs(){
     memset(mf, 0, sizeof(mf));
     mf[src] = 2e9;
-
+  
     queue<int> q;
     q.push(src);
 
     while(q.size()){
         int u  = q.front(); q.pop();
         for (int i = head[u]; i; i = nxt[i]){
-            int v = vex[i];
-            if(mf[v] == 0 && wgt[i]){
+            llong v = vex[i], w = wgt[i];
+            if(mf[v] == 0 && w > 0){
                 mf[v] = min(mf[u], wgt[i]);
                 prec[v] = i;
                 q.push(v);
-                if(v == dst) return true;
             }
         }
     }
-    return false;
+    return mf[dst] != 0;
 }
 
 llong edmonds_karp(){
-    llong flow = 0;
+    llong ans = 0;
     while(bfs()){
       	// 从汇点沿着反向边出发逐渐更新源点，正向边减少，反向边增加 (残留网络提供的反悔机制)
         for (int v = dst, i = prec[v]; v != src; v = vex[i ^ 1], i = prec[v]) {
             wgt[i] -= mf[dst];
             wgt[i ^ 1] += mf[dst];
         }
-        flow += mf[dst];
+        ans += mf[dst];
     }
-    return flow;
+    return ans;
 }
 ```
 
@@ -189,59 +188,49 @@ int n, m, a, b, c;
 int dep[MAXN], curr[MAXN], src, dst;
 
 bool bfs(){
-    memset(dep, 0, sizeof(dep));
     memcpy(curr, head, sizeof(head));
+	  memset(dep, 0, sizeof(dep));
     dep[src] = 1;
-  
+ 
   	queue<int> q;
     q.push(src);
-  
-  	// 也有一些同学会把 dep 初始化无穷大，然后函数返回时判断 dep[dst]是否已被更新
+ 
     while(q.size()){
-        int u  = q.front();q.pop();
+        int u  = q.front(); q.pop();
         for(int i = head[u]; i; i = nxt[i]) {
-            int v = vex[i], w = wgt[i];
+            llong v = vex[i], w = wgt[i];
             if (dep[v] == 0 && w > 0) {
                 dep[v] = dep[u] + 1;
                 q.push(v);
-                if (v == dst){
-                  	return true;
-                }
             }
         }
     }
-    return false;
+    return dep[dst] != 0;
 }
 
-// Dinic dfs 写法有多种，一种是维护iflow与oflow相等的写法，一种使用used 维护已经使用的流量
-llong dfs(int u, int iflow = 2e9){
+int dfs(int u, int iflow = 2e9){
     if(u == dst){
         return iflow;
     }
-    llong used = 0;
+    int oflow = 0;
     for (int i = curr[u]; i && iflow; i = nxt[i]) {
         curr[u] = i;
         int v = vex[i], w = wgt[i];
-        if (dep[v] == dep[u] + 1 && w > 0) {
-            // 最常见的模板是把函数的 iflow 参数当做常量，然后递归 dfs 传参的时候写成相减形式
-            llong ret = dfs(v, min(iflow - used, 0LL + w));
-            wgt[i] -= ret;
-            wgt[i ^ 1] += ret;
-            used += ret;
-            if(used == iflow){
-                return iflow;
-            }
+        if(dep[v] == dep[u] + 1 && w > 0){
+            int ret = dfs(v, min(iflow, w));
+            wgt[i] -= ret, iflow -= ret;
+            wgt[i ^ 1] += ret, oflow += ret;
         }
     }
-    return used;
+    return oflow ? oflow : (dep[u] = 0);
 }
 
-llong Dinic(){
-    llong flow = 0;
+int Dinic(){
+    int ans = 0;
     while(bfs()){
-        flow += dfs(src);
+        ans += dfs(src);
     }
-    return flow;
+    return ans;
 }
 ```
 
@@ -277,17 +266,17 @@ void bfs(){
     }
 }
 
-
-llong dfs(int u, int iflow = 2e9){
+int dfs(int u, int iflow = 2e9){
     if(u == dst){
         return iflow;
     }
-    llong used = 0;
+  
+		int used = 0;
     for (int i = curr[u]; i && iflow; i = nxt[i]){
         curr[u] = i;
         llong v = vex[i], w = wgt[i];
         if (dep[v] + 1 == dep[u] && w > 0) {
-            llong ret = dfs(v, min(iflow - used, w));
+            int ret = dfs(v, min(iflow - used, w));
             used += ret;
             wgt[i] -= ret;
             wgt[i ^ 1] += ret;
@@ -296,6 +285,7 @@ llong dfs(int u, int iflow = 2e9){
             }
         }
     }
+  
     // 此处也是一个 trick，正常写法应为HLPP那样，需要遍历多个顶点寻找最高顶点 t，然后使其恰好高于 t
     if(--gap[dep[u]] == 0){
         dep[src] = n + 1;
@@ -447,3 +437,10 @@ int hlpp(int u = src){
 
 
 ### ⚔️网络流模型的广泛应用
+
+|        题目        |        思路描述        |
+| :----------------: | :--------------------: |
+| LG1344. 追查坏牛奶 | 两次建图跑最大流，或令 |
+|                    |                        |
+|                    |                        |
+
