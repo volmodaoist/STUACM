@@ -57,28 +57,41 @@
 
 ```c++
 #define _OJ_ONLINE_JUDGE_
-#define min3(x,y,z)    (min(min(x,y),z))
-#define min4(x,y,u,v)  (min(min(x,y),min(u,v)))
-#define max3(x,y,z)    (max(max(x,y),z))
-#define max4(x,y,u,v)  (max(max(x,y),max(u,v)))
+#define	min3(x,y,z)	(min(min(x,y),z))
+#define	max3(x,y,z)	(max(max(x,y),z))
+#define	ALL(x)  (x.begin()), (x.end())
+#define	INS(x)  (inserter(x, x.begin()))
+#define	INF	0x3f3f3f3f
+#define	MOD	1000000007
+#define	PI	3.1415927
+#define	EPS	1e-10
 
+// 大部分的OJ支持使用bits/std万能头文件
 #include <bits/stdc++.h>
-#include <iomanip>
+#include <limits.h>
 using namespace std;
-//大部分的OJ支持使用bits/std万能头文件，
 
-typedef long long LL;
-typedef pair<int,int> Point;
+typedef long long ill;
+typedef unsigned long long ull;
+typedef pair<int, int> ii;
+typedef tuple<int, int, int> iii;
+#define  clz   __builtin_clz
+#define  ctz   __builtin_ctz
+#define  fi    first
+#define  se    second
+#define  MAXN  100005
 
 
+int kase;
 int main(){
-    //重定向输入与输出, 便于快速测试
+  	// 重定向输入与输出, 便于快速测试
     #ifdef _OJ_ONLINE_JUDGE_
-    freopen("./test.in","r",stdin);
-    freopen("./test.out","w",stdout);
+    freopen("../../in.txt","r",stdin);
+    freopen("../../out.txt","w",stdout);
     #endif
-    
-    
+
+  
+
     return 0;
 }
 ```

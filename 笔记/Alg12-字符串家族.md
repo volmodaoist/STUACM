@@ -1,9 +1,9 @@
 ### 🌹本章纲要
 
 - 子串匹配 
-
   - Rabin-Karp 算法
   - Kruth-Morris-Pratt 算法
+    - 循环同构字符串最小表示法
     - 利用信息跳转信息计算字符串循环节
     - 使用 Z 函数 计算最长公共前缀 LCP
   - Trie 单词查找树
@@ -26,21 +26,55 @@
 
 
 
-### 内置的STL字符处理技巧
 
-内置的 STL 其实能够处理很多乱七八糟的字符串读入问题，例如我们经常看到Python语音使用的 split 函数，这种按照某个字符把串分段的函数，其实C++能用 getline 实现。
+
+### 🦉处理字符串套路模板
+
+#### 对字符串分割
 
 ```c++
-// Python 语言的写法 str.split('/')，下面是等价的 c++STL 写法，
+/** 
+ * Python 语言的写法 str.split('/')，通过 c++STL  getline 能够实现等价的写法，
+ * 内置的 STL 其实能够处理很多乱七八糟的字符串读入问题，例如按照某个字符把串分段的函数，
+ * 函数 getline 不仅适用于 cin 而且能用 istringstream 对象来对一般字符串进行这种分割操作！
+*/
+
 string str;
 getline(cin, str, '/');
 
-// 这种写法不仅适用于 cin 而且能用 istringstream 对象来对一般字符串如是操作
 istringstream iss(str);
 while(getline(iss, str, '/')){
   	cout << str << endl;
 }
 ```
+
+
+
+#### 对字符串哈希
+
+```c++
+ull H[MAXN], T[MAXN], n , p = 13331, len;
+ull hash_in(char s[]) {
+    int n = strlen(s + 1);
+    for (int i = 1; i <= n; i++) {
+      	P[i] = P[i - 1] * p;
+        H[i] = H[i - 1] * p + s[i];
+    }
+    return H[n];
+}
+
+ull get_hash(int L, int R){
+  	return H[R] - H[L - 1] * P[R - L + 1];
+}
+
+bool substr(int L1, int R1, int L2, int R2){
+  	return get_hash(L1, R1) == get_hash(L2, R2);
+}
+```
+
+
+
+### ⚔️ 处理字符串例题选讲
 
 |       题目       |                    思路描述                     |
 | :--------------: | :---------------------------------------------: |

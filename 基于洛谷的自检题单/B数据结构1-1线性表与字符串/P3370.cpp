@@ -1,0 +1,53 @@
+#define _OJ_ONLINE_JUDGE_
+#define	min3(x,y,z)	(min(min(x,y),z))
+#define	max3(x,y,z)	(max(max(x,y),z))
+#define	ALL(x)  (x.begin()), (x.end())
+#define	INS(x)  (inserter(x, x.begin()))
+#define	INF	0x3f3f3f3f
+#define	MOD	1000000007
+#define	PI	3.1415927
+#define	EPS	1e-10
+
+
+#include <bits/stdc++.h>
+#include <limits.h>
+using namespace std;
+
+
+typedef long long ill;
+typedef unsigned long long ull;
+#define  MAXN  100005
+
+char s[MAXN];
+ull H[MAXN], T[MAXN], n , p = 13331, len;
+
+ull hash_in(char s[]) {
+    int n = strlen(s + 1);
+    for (int i = 1; i <= n; i++) {
+        H[i] = H[i - 1] * p + s[i];
+    }
+    return H[n];
+}
+
+int main(){ 
+    #ifdef _OJ_ONLINE_JUDGE_
+    freopen("../../in.txt","r",stdin);
+    freopen("../../out.txt","w",stdout);
+    #endif
+
+    
+    scanf("%llu", &n);
+    for (int i = 0; i < n; i++) {
+        scanf("%s", s + 1);
+        T[i] = hash_in(s);
+    }
+    sort(T, T + n);
+    int len = 0;
+    for (int i = 1; i < n; i++) {
+        if (T[i] != T[len]){
+            T[++len] = T[i];
+        }
+    }
+    printf("%d\n", len + 1);
+    return 0;
+}

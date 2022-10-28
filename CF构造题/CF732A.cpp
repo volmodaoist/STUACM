@@ -2,8 +2,6 @@
 #include <limits.h>
 using namespace std;
 
-
-
 // https://codeforces.com/contest/732/problem/A
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_

@@ -43,7 +43,7 @@ bool bfs(){
     dep[src] = 1;
 
     queue<int> q;
-    q.push(src);
+    q.push(src)
 
     while (q.size()){
         llong u = q.front(); q.pop();
@@ -62,21 +62,17 @@ llong dfs(llong u, llong iflow = LONG_MAX){
     if(u == dst){
         return iflow;
     }
-    llong used = 0;
-    for (int i = curr[u]; i; i = nxt[i]) {
+    llong oflow = 0;
+    for (int i = curr[u]; i && iflow; i = nxt[i]) {
         curr[u] = i;
         llong v = vex[i], w = wgt[i];
         if(dep[v] == dep[u] + 1 && w > 0){
-            llong ret = dfs(v, min(iflow - used, w));
-            wgt[i] -= ret;
-            wgt[i ^ 1] += ret;
-            used += ret;
-            if(used == iflow){
-                return used;
-            }
+            llong ret = dfs(v, min(iflow, w));
+            wgt[i] -= ret, iflow -= ret;
+            wgt[i ^ 1] += ret, oflow += ret;
         }
     }
-    return used ? used : (dep[u] = 0);//残枝优化
+    return oflow ? oflow : (dep[u] = 0);//残枝优化
 }
 
 llong dinic(){
@@ -93,12 +89,13 @@ int main() {
     freopen("../../out.txt","w",stdout);
     #endif
 
+    int offset = 1331;
     scanf("%lld %lld", &n, &m);
     for (int i = 0; i < m; i++){
         scanf("%lld %lld %lld", &a[i], &b[i], &c);
         add_edge(a[i], b[i], c);
         add_edge(b[i], a[i], 0);
-        
+
         n = max(max(a[i], b[i]), n);// 这句代码是因为hack 数据弄错不得不加上的
     }
     src = 1, dst = n;

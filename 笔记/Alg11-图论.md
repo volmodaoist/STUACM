@@ -38,23 +38,17 @@
 网络流用途非常广泛，通过对实际问题建模套用网络流模型的解决问题的案例非常多，完全能够单独构成一个章节细说网络流的作用。
 
 - 网络流引入 (观看蒋炎岩老师[讲解](https://www.bilibili.com/video/BV1Q7411R7ie/?spm_id_from=333.788.recommend_more_video.18&vd_source=28f330d27174f33e35b3e0c9c5c64407)视频)
-
-- 网络流问题 (※)
-  - 基于增广路的网络流算法
-    - Ford-Fulkerson 算法
-    - Edmonds-Karp 算法
-    - Dinic & ISAP (相当于多路增广DFS，也是最常用的算法)
-      - 通过的分层限制搜索的深度，进行搜索顺序优化
-      - 通过当前弧剪枝，排除已被榨干流量的路径
-      - 通过剩余流量剪枝，约束源点与汇点之外的顶点流入等于流出
-      - 通过残枝优化剪枝，把那些不可能走到汇点的节点全部剔除
-  
-  - 基于预留推进的最大流算法 ***HLPP 最高标记预流推进算法***
-  
+- 网络流问题
+  - Ford-Fulkerson 算法
+  - HLPP (Highest-Label-Preflow-Push) 算法
+  - **Edmonds-Karp 算法**
+    - 最值费用流：替换BFS改成SPFA即可解决最大或最小费用流问题
+  - **Dinic & ISAP (Improved Shortest Augument Path)**
+    - 最少割点：通过拆点为边的方式转为割点为最小割边问题
+    - 最小路径覆盖
 - 大规模二分图匹配
 - 上下界可行流
 - 关键边
-- 拆点
 - **图论对偶定理汇总**
   - *Dilworth*：任意偏序集的最长链与最短链个数等于其各自反链的长度！
   -  *König*：二分图中的最大匹配数等于这个图中的最小点覆盖数！
@@ -181,7 +175,12 @@ llong edmonds_karp(){
 ```c++
 /**
  *  其实idx 初始化等于 0 亦可，只要 head 初始化-1，然后判断空节点的时候使用 ~i 即可
- *  由于图中可能存在环，一旦遇到环有可能会耗费大量时间，甚至进入死循环，为此要将图分层处理，
+ *  由于图中可能有环，遇环有可能会耗费大量时间乃至死循环，为此需要分层处理，下面是几种常用的优化，
+ *     1. 通过分层限制搜索深度，优化搜索顺序
+ *     2. 通过当前弧剪枝排除已被榨干流量的路径
+ *     3. 通过剩余流量剪枝，约束源点与汇点之外的顶点流入等于流出
+ *     4. 通过残枝优化剪枝，把那些不可能走到汇点的节点全部剔除
+ *  如果添加一个断层优化，并把分层过程反过来，先从汇点出发，那么 Dinic 算法也就变成了 ISAP 算法了！
 */ 
 
 int n, m, a, b, c;
@@ -222,7 +221,7 @@ int dfs(int u, int iflow = 2e9){
             wgt[i ^ 1] += ret, oflow += ret;
         }
     }
-    return oflow ? oflow : (dep[u] = 0);
+    return oflow ? oflow : (dep[u] = 0);//残枝优化
 }
 
 int Dinic(){
@@ -243,7 +242,7 @@ int Dinic(){
 int n, m, a, b, c;
 int dep[MAXN], gap[MAXN], curr[MAXN], src, dst;
 
-// 如果dep 初始化-1，那么退出条件可以设为 n，然后 isap 退出等于 n 时候退出循环
+// 如果 dep 初始化-1，那么退出条件可以设为 n，然后 isap 退出等于 n 时候退出循环
 void bfs(){
     memset(dep, 0, sizeof(dep));
     memset(gap, 0, sizeof(gap));
@@ -313,7 +312,8 @@ llong isap(){
 ```c++
 /**
  *  截止 2022，目前理论效率最高的最大流算法，Highest-Label-Preflow-Push，虽然算法常数较大，
- *  上述算法基于增广路思想，但是 HLPP 打破了平衡条件(流入等于流出)，其将每个节点当做自高向低流动的蓄水池，
+ *  其它算法基于增广路实现，但是HLPP非也，HLPP 是基于预留进行实现的，其打破了平衡条件(流入等于流出)限制，
+ *  这种算法是将每个节点当做自高向低流动的蓄水池，然后自高向低流动，直到流不动再调整各个顶点的高度继续流动！
 */ 
 int n, m, a, b, c;
 int dep[MAXN], gap[MAXN], exce[MAXN], curr[MAXN], inq[MAXN], src, dst;
@@ -357,10 +357,8 @@ void push_flow(int u){
         int v = vex[i], w = wgt[i];
         if(dep[v] + 1 == dep[u] && w > 0){
             int mf = min(exce[u], w);
-            wgt[i] -= mf;
-            wgt[i ^ 1] += mf;
-            exce[u] -= mf;
-            exce[v] += mf;
+            wgt[i] -= mf, exce[u] -= mf
+            wgt[i ^ 1] += mf, exce[v] += mf;
             if (v != src && v != dst && !inq[v]){
                 heap.push(v);
                 inq[v] = 1;
@@ -395,10 +393,8 @@ int hlpp(int u = src){
     for (int i = head[u]; i; i = nxt[i]){
         int v = vex[i], w = wgt[i];
         if(w > 0){
-            wgt[i] -= w;
-            wgt[i ^ 1] += w;
-            exce[u] -= w;
-            exce[v] += w;
+            wgt[i] -= w, exce[u] -= w;
+            wgt[i ^ 1] += w, exce[v] += w;
             if (v != src && v != dst && !inq[v]){
                 heap.push(v);
                 inq[v] = 1;
@@ -407,8 +403,7 @@ int hlpp(int u = src){
     }
     // 推送结束之后若仍存在超额流, 抬高t, 如果顶点 t 出现断层, 高于 t 那些顶点也不再可能往下流动, 全部抬高
     while(heap.size()){
-        int t = heap.top(); heap.pop();
-        inq[t] = 0;
+        int t = heap.top(); heap.pop(); inq[t] = 0;
         push_flow(t); 
         if(exce[t]){
             if (--gap[dep[t]] == 0) {
@@ -420,8 +415,7 @@ int hlpp(int u = src){
             }
             relabel(t);
             ++gap[dep[t]];
-            heap.push(t);
-            inq[t] = 1;
+            heap.push(t); inq[t] = 1;
         }
     }
     return exce[dst];
@@ -432,15 +426,11 @@ int hlpp(int u = src){
 
 
 
-
-
-
-
 ### ⚔️网络流模型的广泛应用
 
-|        题目        |        思路描述        |
-| :----------------: | :--------------------: |
-| LG1344. 追查坏牛奶 | 两次建图跑最大流，或令 |
-|                    |                        |
-|                    |                        |
+|        题目        |                           思路描述                           |
+| :----------------: | :----------------------------------------------------------: |
+| LG1344. 追查坏牛奶 | 两次建图跑最大流，或者建图 w=wx+1，再对 x下取整得最小割，取余数得边数 |
+| LG1345. 奶牛的电信 |               拆点成边，转换割点问题为割边问题               |
+| LG2057. 善意的投票 | 相当于分成两个集合，设置源点、汇点分别连接不同的立场的小孩，再求最小割 |
 
