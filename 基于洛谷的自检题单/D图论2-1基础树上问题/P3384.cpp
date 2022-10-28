@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -59,7 +59,7 @@ void tree_decomposition(int u, int t){
 #define  rc(x)  (x<<1|1)
 typedef struct _TreeNode{
     int lo, hi;
-    llong atg, val;
+    ill atg, val;
 } TreeNode;
 
 TreeNode tree[MAXN << 2];
@@ -105,13 +105,13 @@ void update(int lo, int hi, int c, int k = 1){
     tree[k].val = (tree[lc(k)].val + tree[rc(k)].val) % p;
 }
 
-llong query(int lo, int hi, int k = 1){
+ill query(int lo, int hi, int k = 1){
     if(lo <= tree[k].lo && tree[k].hi <= hi){
         return tree[k].val;
     }
     push_down(k);
     int md = (tree[k].lo + tree[k].hi) / 2;
-    llong ans = 0;
+    ill ans = 0;
     if (lo <= md)
         ans = (ans + query(lo, hi, lc(k))) % p;
     if (hi > md)
@@ -134,8 +134,8 @@ void update_subtree(int u, int c){
     update(id[u], id[u] + siz[u] - 1, c);
 }
 
-llong query_path(int u, int v, int k = 1) {
-    llong ans = 0;
+ill query_path(int u, int v, int k = 1) {
+    ill ans = 0;
     while (top[u] != top[v]) {
         if(dep[top[u]] < dep[top[v]])
             swap(u, v);
@@ -147,7 +147,7 @@ llong query_path(int u, int v, int k = 1) {
     return ans % p;
 }
 
-llong query_subtree(int u){
+ill query_subtree(int u){
     return query(id[u], id[u] + siz[u] - 1) % p;
 }
 

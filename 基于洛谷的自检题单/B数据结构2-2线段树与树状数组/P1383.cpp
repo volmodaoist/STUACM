@@ -14,14 +14,10 @@
 using namespace std;
 
 
-typedef long long llong;
-typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 #define  clz   __builtin_clz
 #define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  100005
 
 #define  lc(x)  (tree[x].lc)

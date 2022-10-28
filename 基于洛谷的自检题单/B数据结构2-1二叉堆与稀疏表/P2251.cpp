@@ -14,11 +14,6 @@
 #include <limits.h>
 using namespace std;
 
-
-typedef long long llong;
-typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
 #define  lc(x)  (x<<1)
 #define  rc(x)  (x<<1|1)
 #define  clz   __builtin_clz

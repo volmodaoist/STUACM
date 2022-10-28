@@ -3,7 +3,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -26,13 +26,13 @@ void read(int n, int arr[MAXN], int rank[MAXN]){
     }
 }
 
-llong tr[MAXN];
+ill tr[MAXN];
 inline int lowbit(int x) {
     return x & (-x);
 }
 
-inline llong query(int x){
-    llong ans = 0;
+inline ill query(int x){
+    ill ans = 0;
     for (int i = x; i; i -= lowbit(i)) {
         ans = (ans + tr[i]) % mod;
     }
@@ -58,7 +58,7 @@ int main(){
         return c[i] > c[j]; 
     });
 
-    llong ans = 0;
+    ill ans = 0;
     for (int i = 1; i <= n; i++) {
         update(ranks[i], 1);
         ans = (ans + query(ranks[i] - 1)) % mod;

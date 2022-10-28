@@ -4,8 +4,8 @@
 using namespace std;
 
 
-typedef long long Long;
-typedef unsigned long long ULL;
+typedef long long ill;
+typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 #define  lc(x) (x << 1)
@@ -14,23 +14,23 @@ typedef tuple<int, int, int> iii;
 #define  se    second
 #define  MAXN  500005
 
-typedef long long LLong;
+typedef long long ill;
 
 int n, m, d;
-LLong arr[MAXN], tr[MAXN], itr[MAXN];
+ill arr[MAXN], tr[MAXN], itr[MAXN];
 
 inline int lowbit(int x){
     return (x & (-x));
 }
 
-inline void update(LLong tree[], int x, LLong c){
+inline void update(ill tree[], int x, ill c){
     for (int i = x; i <= n; i += lowbit(i)){
         tree[i] += c;
     }
 }
 
-inline LLong query(LLong tree[], int x){
-    LLong ans = 0;
+inline ill query(ill tree[], int x){
+    ill ans = 0;
     for (int i = x; i; i -= lowbit(i)){
         ans += tree[i];
     }
@@ -70,8 +70,8 @@ int main(){
                 scanf("%d %d", &a, &b);
 
                 a--;
-                LLong part1 = b * query(tr, b) - a * query(tr, a);
-                LLong part2 = query(itr, b) - query(itr, a);
+                ill part1 = b * query(tr, b) - a * query(tr, a);
+                ill part2 = query(itr, b) - query(itr, a);
 
                 printf("%lld\n", part1 - part2);
             }

@@ -1,15 +1,3 @@
-#define _OJ_ONLINE_JUDGE_
-#define	min3(x,y,z)	(min(min(x,y),z))
-#define	max3(x,y,z)	(max(max(x,y),z))
-#define	CLEAR(A,x)  (memset(A,x,sizeof(A)))
-#define	ALL(x)  (x.begin()), (x.end())
-#define	INS(x)  (inserter(x, x.begin()))
-#define	INF	0x3f3f3f3f
-#define	MOD	1000000007
-#define	PI	3.1415927
-#define	EPS	1e-10
-
-
 #include <bits/stdc++.h>
 #include <algorithm>
 using namespace std;
@@ -18,12 +6,12 @@ using namespace std;
 #define  rc(x) (x << 1 | 1)
 #define  MAXN  400010
 
-typedef long long LLong;
+typedef long long ill;
 
 int n, m;
 
-LLong a, b, c;
-LLong ar[MAXN], tr[MAXN];
+ill a, b, c;
+ill ar[MAXN], tr[MAXN];
 
 inline void buildtree(int k, int lo, int hi){
     if(lo == hi){
@@ -39,7 +27,7 @@ inline void buildtree(int k, int lo, int hi){
 
 
 
-inline void update(int k, int lo, int hi, int x, LLong c){
+inline void update(int k, int lo, int hi, int x, ill c){
     if(lo == hi){
         tr[k] = c;
         return;
@@ -53,12 +41,12 @@ inline void update(int k, int lo, int hi, int x, LLong c){
 
 
 
-inline LLong query(int k, int lo, int hi, int i, int j){
+inline ill query(int k, int lo, int hi, int i, int j){
     if(i <= lo && hi <= j){
         return tr[k];
     }
     int md = lo + (hi - lo) / 2;
-    LLong ans = 0;
+    ill ans = 0;
     if(i <= md)  ans = max(ans, query(lc(k), lo, md, i, j));
     if(j >  md)  ans = max(ans, query(rc(k), md + 1, hi, i, j));
     return ans;

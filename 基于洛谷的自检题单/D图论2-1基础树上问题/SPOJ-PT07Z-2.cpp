@@ -14,7 +14,7 @@
 #include <stdio.h>
 using namespace std;
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 
 #define  MAXN  100005

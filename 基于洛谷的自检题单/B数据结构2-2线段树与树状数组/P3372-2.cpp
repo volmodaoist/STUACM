@@ -15,7 +15,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -30,7 +30,7 @@ typedef tuple<int, int, int> iii;
 
 typedef struct _TreeNode{
     int lo, hi;
-    llong val, tag;
+    ill val, tag;
 } TreeNode;
 
 TreeNode tr[MAXN];
@@ -73,13 +73,13 @@ void update(int lo, int hi, int c, int k = 1) {
     tr[k].val = tr[lc(k)].val + tr[rc(k)].val;
 }
 
-llong query(int lo, int hi, int k = 1){
+ill query(int lo, int hi, int k = 1){
     if(lo <= tr[k].lo && tr[k].hi <= hi){
         return tr[k].val;
     }
     push_down(k);
     int md = (tr[k].lo + tr[k].hi) / 2;
-    llong ans = 0;
+    ill ans = 0;
     if (lo <= md)
         ans += query(lo, hi, lc(k));
     if (hi > md)

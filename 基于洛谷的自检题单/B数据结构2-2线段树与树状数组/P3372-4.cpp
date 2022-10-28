@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -29,7 +29,7 @@ typedef tuple<int, int, int> iii;
 #define  rc(x)  (x<<1|1)
 
 int n, m, N = 1, v[MAXN];
-llong tree[MAXN << 2], mark[MAXN << 2];
+ill tree[MAXN << 2], mark[MAXN << 2];
 
 
 // 本题使用了 zkw 线段树，本题值得反复琢磨！
@@ -59,8 +59,8 @@ void update(int lo, int hi, int val){
 }
 
 
-llong query(int lo, int hi){
-    llong ans = 0;
+ill query(int lo, int hi){
+    ill ans = 0;
     int len = 1, cntl = 0, cnth = 0;
     for (lo += N - 1, hi += N + 1; lo ^ hi ^ 1; lo >>= 1, hi >>= 1, len <<= 1) {
         ans += cntl * mark[lo] + cnth * mark[hi];

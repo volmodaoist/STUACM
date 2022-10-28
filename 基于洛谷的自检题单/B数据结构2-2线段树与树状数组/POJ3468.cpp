@@ -8,12 +8,13 @@ using namespace std;
 #define  rc(x) (x << 1 | 1)
 #define  MAXN  400010
 
-typedef long long LLong;
+typedef long long ill;
+typedef unsigned long long ull;
 
 int n, m;
 
-LLong a, b, c;
-LLong ar[MAXN], tr[MAXN], tag[MAXN];
+ill a, b, c;
+ill ar[MAXN], tr[MAXN], tag[MAXN];
 
 inline void buildtree(int k, int lo, int hi){
     if(lo == hi){
@@ -48,8 +49,8 @@ inline void update(int k, int lo, int hi, int i, int j, int c){
 
 
 
-inline LLong query(int k, int lo, int hi, int i, int j){
-    LLong ans = 0;
+inline ill query(int k, int lo, int hi, int i, int j){
+    ill ans = 0;
     if(i <= lo && hi <= j){
         return tr[k];
     }

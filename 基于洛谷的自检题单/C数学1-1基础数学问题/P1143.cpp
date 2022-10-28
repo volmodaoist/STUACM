@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -58,7 +58,7 @@ int main(){
     cin >> digits;
     cin >> m;
     reverse(digits.begin(), digits.end());
-    llong tmp = 0, t = 1;
+    ill tmp = 0, t = 1;
     for (auto i : digits) {
         tmp += c2i(i) * t;
         t = t * n;

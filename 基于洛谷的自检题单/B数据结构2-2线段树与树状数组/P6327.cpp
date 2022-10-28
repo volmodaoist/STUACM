@@ -15,7 +15,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -28,10 +28,10 @@ typedef tuple<int, int, int> iii;
 #define  MAXN  600005
 
 
-// 本题由于没有tag使用llong, WA好几次
+// 本题由于没有tag使用ill, WA好几次
 typedef struct _TreeNode{
     int lo, hi;
-    llong tag;
+    ill tag;
     double sine, cosi;
 } TreeNode;
 

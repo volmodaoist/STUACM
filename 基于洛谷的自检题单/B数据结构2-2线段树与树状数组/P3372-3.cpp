@@ -15,7 +15,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -31,7 +31,7 @@ typedef tuple<int, int, int> iii;
 // 标签永久化思想
 typedef struct _TreeNode{
     int lo, hi;
-    llong val, tag;
+    ill val, tag;
 } TreeNode;
 
 TreeNode tr[MAXN];
@@ -71,7 +71,7 @@ void update(int lo, int hi, int c, int k = 1) {
 
 // 使用一个变量在递归过程中传递一下树上路径的标签和，
 // 标签永久化之后甚至都不需要存数值，只要存标签即可，建树的过程改用 update 实现（虽然这样复杂度会更高一点
-llong query(int lo, int hi, llong c, int k = 1){
+ill query(int lo, int hi, ill c, int k = 1){
     c += tr[k].tag; 
     if(tr[k].lo == lo && tr[k].hi == hi){
         return tr[k].val + c * (hi - lo + 1);

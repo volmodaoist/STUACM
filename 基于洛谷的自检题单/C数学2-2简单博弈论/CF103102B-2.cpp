@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -36,7 +36,7 @@ int main(){
     // 由于输入只有0与1 计算逆序对的方法其实可以简化
     while (scanf("%s", str) != EOF) {
         int n = strlen(str);
-        llong ones = 0, rp = 0;
+        ill ones = 0, rp = 0;
         for (int i = 0; i < n; i++) {
             if(str[i] == '1'){
                 ones++;

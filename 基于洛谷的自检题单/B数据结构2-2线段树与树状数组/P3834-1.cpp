@@ -13,7 +13,7 @@
 #include <limits.h>
 using namespace std;
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;

@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -34,7 +34,7 @@ typedef tuple<int, int, int> iii;
 */
 typedef struct _TreeNode{
     int lo, hi, lc, rc;
-    llong val;
+    ill val;
 }TreeNode;
 
 // 这一版的代码结合自己理解，并根据董晓算法的视频改过的，更加简洁而且减少了空间消耗
@@ -69,7 +69,7 @@ void update(int u, int &v, int lo, int hi, int i, int val){
     tree[v].val = tree[lc(v)].val + tree[rc(v)].val;
 }
 
-llong query(int u,  int i){
+ill query(int u,  int i){
     if(tree[u].lo == tree[u].hi && tree[u].lo == i){
         return tree[u].val;
     }
@@ -82,13 +82,13 @@ llong query(int u,  int i){
 }
 
 // 本题并不要求实现区间查询，但是使用区间能够使本题模板更加一般化
-llong query(int u,  int lo, int hi){
+ill query(int u,  int lo, int hi){
     // 如果查询区间覆盖了树节点维护的区间则返回
     if (lo <= tree[u].lo && tree[u].hi <= hi) {
         return tree[u].val;
     }
     int md = (tree[u].lo + tree[u].hi) / 2;
-    llong ans = 0;
+    ill ans = 0;
     if(lo <= md)
         ans += query(lc(u), lo, hi);
     if (hi > md)

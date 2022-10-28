@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -28,8 +28,8 @@ typedef tuple<int, int, int> iii;
 #define  lc(x)  (x<<1)
 #define  rc(x)  (x<<1|1)
 
-llong A[MAXN];
-llong tree[MAXN << 2];
+ill A[MAXN];
+ill tree[MAXN << 2];
 int n, w, a, b, pos, val, N = 1;
 
 void build() {
@@ -48,8 +48,8 @@ void update(int x, int c){
     }
 }
 
-llong query(int lo, int hi){
-    llong ans = 0;
+ill query(int lo, int hi){
+    ill ans = 0;
     for (lo += N - 1, hi += N + 1; lo ^ hi ^ 1; lo >>= 1, hi >>= 1) {
         if (~lo & 1)
             ans += tree[lo ^ 1];

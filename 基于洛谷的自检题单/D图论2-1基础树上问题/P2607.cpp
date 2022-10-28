@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -30,7 +30,7 @@ typedef tuple<int, int, int> iii;
 
 
 
-llong dp[MAXN][2];
+ill dp[MAXN][2];
 int w[MAXN], vis[MAXN], r1, r2, n;
 int head[MAXN], val[MAXN], nxt[MAXN], idx;
 
@@ -50,7 +50,7 @@ void find(int u, int r){
     }
 }
 
-llong dfs(int u, int r){
+ill dfs(int u, int r){
     dp[u][0] = 0, dp[u][1] = w[u];
     for (int i = head[u]; ~i; i = nxt[i]) {
         int v = val[i];
@@ -80,7 +80,7 @@ int main() {
     // debug_edges();
 
     // 拆边成林之后，本题其实就是「P1352. 没有上司的舞会」简单变体
-    llong ans = 0;
+    ill ans = 0;
     for (int u = 1; u <= n; u++) {
         r1 = r2 = 0;
         find(u, u);

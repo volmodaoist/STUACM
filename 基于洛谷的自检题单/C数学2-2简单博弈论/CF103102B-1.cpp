@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -27,14 +27,14 @@ typedef tuple<int, int, int> iii;
 char str[MAXN];
 int v[MAXN], tmp[MAXN];
 
-llong merge_sort(int arr[MAXN], int lo, int hi){
+ill merge_sort(int arr[MAXN], int lo, int hi){
     if(lo >= hi)
         return 0;
     int md = lo + (hi - lo) / 2;
 
-    llong cross = 0;
-    llong lt = merge_sort(arr, lo, md);
-    llong rt = merge_sort(arr, md + 1, hi);
+    ill cross = 0;
+    ill lt = merge_sort(arr, lo, md);
+    ill rt = merge_sort(arr, md + 1, hi);
 
     int i = lo, j = md + 1, k = 0;
     while (i <= md && j <= hi) {
@@ -72,7 +72,7 @@ int main() {
         v[i] = str[i] - '0';
     }
 
-    llong rp = merge_sort(v, 0, n - 1);
+    ill rp = merge_sort(v, 0, n - 1);
 
     printf("%s\n", (rp % 3 ? "Alice" : "Bob"));
     return 0;

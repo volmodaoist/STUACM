@@ -15,7 +15,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -23,8 +23,6 @@ typedef tuple<int, int, int> iii;
 #define  rc(x)  (x<<1|1)
 #define  clz   __builtin_clz
 #define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  500005
 
 typedef struct _Item{
@@ -40,13 +38,13 @@ typedef struct _Item{
 
 Item items[MAXN];
 
-llong n, tr[MAXN];
+ill n, tr[MAXN];
 inline int lowbit(int x) {
     return x & (-x);
 }
 
-inline llong query(int x){
-    llong ans = 0;
+inline ill query(int x){
+    ill ans = 0;
     for (int i = x; i; i -= lowbit(i)) {
         ans += tr[i];
     }
@@ -66,7 +64,7 @@ int main() {
     #endif
 
     
-    llong ans = 0;
+    ill ans = 0;
     scanf("%lld", &n);
     for (int i = 1; i <= n; i++){
         scanf("%d", &items[i].val);
