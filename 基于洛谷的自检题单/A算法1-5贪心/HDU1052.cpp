@@ -14,22 +14,11 @@
 #include <limits>
 using namespace std;
 
-
-typedef long long llong;
-typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  lc(x)  (x<<1)
-#define  rc(x)  (x<<1|1)
 #define  clz   __builtin_clz
 #define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  100005
 
-
-int kase;
-int ji[MAXN], qi[MAXN];
+int ji[MAXN], qi[MAXN], n;
 
 int main() {
     #ifdef _OJ_ONLINE_JUDGE_
@@ -37,7 +26,6 @@ int main() {
     freopen("../../out.txt","w",stdout);
     #endif
 
-    int n;
     while(scanf("%d", &n) && n){
         for (int i = 0; i < n; i++)
             scanf("%d", &ji[i]);

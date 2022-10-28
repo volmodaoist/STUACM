@@ -14,20 +14,9 @@
 #include <limits.h>
 using namespace std;
 
-
-typedef long long llong;
-typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  lc(x)  (x<<1)
-#define  rc(x)  (x<<1|1)
-#define  clz   __builtin_clz
-#define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  100005
 
-int arr[MAXN];
+int arr[MAXN], n;
 void quick_sort(int arr[], int lo, int hi) {
     if (lo >= hi)
         return;
@@ -45,12 +34,6 @@ void quick_sort(int arr[], int lo, int hi) {
 }
 
 int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../../in.txt","r",stdin);
-    freopen("../../out.txt","w",stdout);
-    #endif
-
-    int n;
     scanf("%d", &n);
     for (int i = 0; i < n; i++){
         scanf("%d", &arr[i]);

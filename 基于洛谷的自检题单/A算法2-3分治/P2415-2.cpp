@@ -3,12 +3,12 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 
 int main(){
-    llong ans=0;
+    ill ans=0;
     int n = 0, t;
     while(scanf("%d",&t)!=EOF)
         ans += t, n++;
