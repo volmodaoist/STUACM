@@ -16,33 +16,32 @@
 using namespace std;
 
 
-typedef long long Long;
-typedef unsigned long long ULL;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-typedef vector<int> vi;
-typedef vector<ii>  vii;
-#define  xx    first
-#define  yy    second
 
+// 输入: * + 11.0 12.0 + 24.0 35.0
+// 输出: 1357.000000
 
-ULL gcd(ULL m, ULL n){
-    return m % n == 0 ? n : gcd(n, m % n);
+// 逆波兰表达式
+char s[10];
+double RPN(){
+    scanf("%s", s);
+    switch(s[0]){
+        case '*' : return RPN() * RPN();
+        case '+' : return RPN() + RPN();
+        case '/' : return RPN() / RPN();
+        case '-' : return RPN() - RPN();
+        default:
+            return atof(s);
+    }
 }
 
-int kase, m, n;
-int main(){ 
+int main(){
     #ifdef _OJ_ONLINE_JUDGE_
     freopen("test.in","r",stdin);
     freopen("test.out","w",stdout);
     #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
 
-    while (cin >> m >> n){
-        cout << gcd(m, n) << endl;
-    }
+    printf("%lf\n", RPN());
+
     return 0;
 }
+

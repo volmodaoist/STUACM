@@ -15,15 +15,13 @@
 #include <iomanip>
 using namespace std;
 
-
-typedef long long Long;
-typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 typedef vector<int> vi;
 typedef vector<ii>  vii;
-#define  xx    first
-#define  yy    second
+
+#define xx first
+#define yy second
 
 // int dx[12] = {-1, +1, -1, +1, -2, +2, -2, +2, -2, -2, +2 + 2};
 // int dy[12] = {+2, +2, -2, -2, -1, -1, +1, +1, -2, +2, -2, +2};

@@ -4,7 +4,7 @@ using namespace std;
 
 
 typedef long long ill;
-typedef unsigned long long ULL;
+typedef unsigned long long ull;
 typedef pair<int, int> ii;
 #define  MAXN  100005
 

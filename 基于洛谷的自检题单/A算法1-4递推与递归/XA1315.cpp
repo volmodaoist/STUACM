@@ -16,27 +16,22 @@
 using namespace std;
 
 
-typedef long long Long;
-typedef unsigned long long ULL;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-typedef vector<int> vi;
-typedef vector<ii>  vii;
-#define  xx    first
-#define  yy    second
-#define MAXN   5000
+typedef long long ill;
+typedef unsigned long long ull;
+#define MAXN  1000
 
-int memo[MAXN] = {0, 1, 1};
-ULL fib(ULL x){
-    if(x==1 || x==2)
+ull memo[MAXN][MAXN];
+
+ull S(ull n, ull k){
+    if(k <=0 || k > n)
+        return 0;
+    if (n == k || k == 1)
         return 1;
-    if (memo[x] != 0)
-        return memo[x];
-    memo[x] = fib(x - 1) + fib(x - 2);
-    return memo[x];
+    memo[n][k] = S(n - 1, k - 1) + k * S(n - 1, k);
+    return memo[n][k];
 }
 
-int kase, x;
+int kase;
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_
     freopen("test.in","r",stdin);
@@ -47,10 +42,9 @@ int main(){
     //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
     #endif
 
-    cin >> kase;
-    while(kase--){
-        cin >> x;
-        cout << fib(x) << endl;
+    int n, k;
+    while(cin >> n >> k){
+        cout << S(n, k) << endl;
     }
     return 0;
 }

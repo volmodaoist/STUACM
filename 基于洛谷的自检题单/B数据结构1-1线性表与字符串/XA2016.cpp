@@ -15,18 +15,20 @@
 #include <iomanip>
 using namespace std;
 
+struct Node{
+    int data;
+    struct Node *next;
+    Node(){
+        this->data = 0;
+        this->next = NULL;
+    }
+    Node(int val){
+        this->data = val;
+        this->next = NULL;
+    }
+};
 
-typedef long long Long;
-typedef unsigned long long ULL;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-typedef vector<int> vi;
-typedef vector<ii>  vii;
-#define  xx    first
-#define  yy    second
-
-
-ULL bugs[105], eggs[105];
+int n;
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_
     freopen("test.in","r",stdin);
@@ -37,17 +39,22 @@ int main(){
     //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
     #endif
 
-    ULL x, y, z;
-    while (cin >> x >> y >> z){
-        for (int i = 1; i <= x; i++){
-            bugs[i] = 1;
-            eggs[i] = 0;
+    struct Node *head = new Node(0);
+    while (cin >> n){
+        struct Node *curr = head;
+        for (int i = 1; i <= n; i++){
+            Node *temp = new Node(i);
+            curr->next = temp;
+            curr = curr->next;
         }
-        for (int i = x + 1; i <= z + 1; i++){
-            eggs[i] = y * bugs[i - x];
-            bugs[i] = bugs[i - 1] + eggs[i - 2];
+        
+        int ans = 0;
+        curr = head->next;
+        while(curr!=NULL){
+            ans += curr->data;
+            curr = curr->next;
         }
-        cout << bugs[z + 1] << endl;
+        cout << ans << endl;
     }
 
     return 0;

@@ -15,9 +15,6 @@
 #include <iomanip>
 using namespace std;
 
-
-typedef long long Long;
-typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 typedef vector<int> vi;

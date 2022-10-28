@@ -15,9 +15,6 @@
 #include <iomanip>
 using namespace std;
 
-
-typedef long long Long;
-typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 typedef vector<int> vi;
@@ -50,10 +47,7 @@ int main(){
     freopen("test.in","r",stdin);
     freopen("test.out","w",stdout);
     #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
+
 
     string ss;
     while (cin >> ss){

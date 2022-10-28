@@ -16,26 +16,18 @@
 using namespace std;
 
 
-typedef long long Long;
-typedef unsigned long long ULL;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-typedef vector<int> vi;
-typedef vector<ii>  vii;
-#define  xx    first
-#define  yy    second
+typedef long long ill;
+typedef unsigned long long ull;
 #define MAXN   5000
 
-
-int factor(int u, int x){
-    int ans = 1;
-    for (int i = u; i * i <= x; i++){
-        if (x % i == 0){
-            ans += factor(i, x / i);
-        }
-    }
-
-    return ans;
+ull memo[MAXN] = {0, 1, 1};
+ull fib(ull x){
+    if(x==1 || x==2)
+        return 1;
+    if (memo[x] != 0)
+        return memo[x];
+    memo[x] = fib(x - 1) + fib(x - 2);
+    return memo[x];
 }
 
 int kase, x;
@@ -44,15 +36,11 @@ int main(){
     freopen("test.in","r",stdin);
     freopen("test.out","w",stdout);
     #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
 
     cin >> kase;
     while(kase--){
         cin >> x;
-        cout << factor(2, x) << endl;
+        cout << fib(x) << endl;
     }
     return 0;
 }

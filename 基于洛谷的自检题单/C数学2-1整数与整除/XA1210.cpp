@@ -16,8 +16,6 @@
 using namespace std;
 
 
-typedef long long Long;
-typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 typedef vector<int> vi;
@@ -37,11 +35,6 @@ void initPrime(){
             }
         }
     }
-    // for (int i = 2; i <= 100; i++){
-    //     if(!notPrime[i]){
-    //         cout << i << endl;
-    //     }
-    // }
 }
 
 void dfs(int x){

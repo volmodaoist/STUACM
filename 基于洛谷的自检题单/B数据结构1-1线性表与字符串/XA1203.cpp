@@ -13,21 +13,18 @@
 
 #include <bits/stdc++.h>
 #include <iomanip>
-
-
 using namespace std;
 
-
-typedef long long Long;
-typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 typedef vector<int> vi;
 typedef vector<ii>  vii;
 #define  xx    first
 #define  yy    second
+#define MAXN    5000
 
 int kase;
+int stk[MAXN], top;
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_
     freopen("test.in","r",stdin);
@@ -38,27 +35,29 @@ int main(){
     //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
     #endif
 
-    double a, b, c;
-    while (scanf("%lf %lf %lf", &a, &b, &c) != EOF){
-        double delta = b * b - 4 * a * c;
-        if(delta < 0 && abs(delta) > EPS){
-            printf("No answer!\n");
-        }else if (abs(delta) < EPS){
-            double ans = (-b) / (2 * a);
-            if(abs(ans) < EPS){
-                printf("x1=x2=%.5lf\n", 0);
-            }else{
-                printf("x1=x2=%.5lf\n", ans);
+    string s;
+    while (cin >> s){
+        top = 0;
+        string t = s;
+        for (int i = 0; i < t.size(); i++){
+            if(t[i] == ')' && top && t[stk[top]] == '('){
+                s[i] = s[stk[top--]] = ' ';
+                continue;
             }
-        }else{
-            double x1 = (-b - sqrt(delta)) / (2 * a);
-            double x2 = (-b + sqrt(delta)) / (2 * a);
-            if(x1 > x2){
-                swap(x1, x2);
+            stk[++top] = i;
+            if(isalpha(t[stk[top]])){
+                s[stk[top--]] = ' ';
             }
-            printf("x1=%.5lf;x2=%.5lf\n", x1, x2);
         }
+        while(top){
+            if(t[stk[top]] == '('){
+                s[stk[top--]] = '$';
+            }else if(t[stk[top]] == ')'){
+                s[stk[top--]] = '?';
+            }
+        }
+        cout << t << endl;
+        cout << s << endl;
     }
-
     return 0;
 }
