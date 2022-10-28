@@ -14,19 +14,13 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  clz   __builtin_clz
-#define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  1000005
 
 int w[MAXN], n;
-llong dp[MAXN];
-llong ans = INT_MIN;
+ill dp[MAXN];
+ill ans = INT_MIN;
 vector<int> edges[MAXN];
 
 int dfs(int u, int father){

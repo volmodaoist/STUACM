@@ -14,22 +14,16 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  clz   __builtin_clz
-#define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  100005
 
 int w[MAXN], n;
-llong ans = INT_MIN;
+ill ans = INT_MIN;
 vector<int> edges[MAXN];
 
-llong dfs(int u, int father){
-    llong sumv = w[u];
+ill dfs(int u, int father){
+    ill sumv = w[u];
     for (int v: edges[u]){
         if(v == father)
             continue;
