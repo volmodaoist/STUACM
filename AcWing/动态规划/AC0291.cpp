@@ -5,13 +5,13 @@ using namespace std;
 #define MAXN 15 
 #define MAXM 3000
 
-typedef long long llong;
+typedef long long ill;
 
 
-int even_zero[MAXM];         // 不允许存在奇数个数的连续位零
+int even_zero[MAXM];          // 不允许存在奇数个数的连续位零
 vector<int> valid_comb[MAXM]; // 存储合法的状态组合, 这个结构非常类似于邻接表
 
-llong dp[MAXN][MAXM];
+ill dp[MAXN][MAXM];
 
 int main(){
     int n, m;

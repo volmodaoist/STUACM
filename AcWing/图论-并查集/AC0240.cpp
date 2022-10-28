@@ -14,8 +14,6 @@
 using namespace std;
 
 
-typedef long long Long;
-typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 #define  fi    first

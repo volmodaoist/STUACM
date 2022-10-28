@@ -2,7 +2,7 @@
 using namespace std;
 
 #define MAXN 100005
-typedef long long llong;
+typedef long long ill;
 
 int n;
 int arr[MAXN];
@@ -13,7 +13,7 @@ int main(){
         scanf("%d", &arr[i]);  
     }
     sort(arr, arr + n);
-    llong ans = 0;
+    ill ans = 0;
     for(int i = 0; i < n; i++){
         ans += (arr[i] * (n - i - 1));
     }
