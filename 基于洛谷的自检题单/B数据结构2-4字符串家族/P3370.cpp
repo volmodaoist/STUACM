@@ -10,6 +10,7 @@ typedef unsigned long long ull;
 char s[MAXN];
 ull H[MAXN], T[MAXN], n , p = 13331, len;
 
+// 本题是一个字符串哈希模板题
 ull hash_in(char s[]) {
     int n = strlen(s + 1);
     for (int i = 1; i <= n; i++) {

@@ -17,7 +17,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 #define  lc(x)  (x<<1)
 #define  rc(x)  (x<<1|1)

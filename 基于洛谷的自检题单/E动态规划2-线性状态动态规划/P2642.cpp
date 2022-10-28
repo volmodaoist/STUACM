@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -26,8 +26,8 @@ typedef tuple<int, int, int> iii;
 
 
 int n;
-llong nums[MAXN];
-llong f[MAXN], g[MAXN];
+ill nums[MAXN];
+ill f[MAXN], g[MAXN];
 
 int main() {
     #ifdef _OJ_ONLINE_JUDGE_
@@ -58,7 +58,7 @@ int main() {
     }
 
     // 第 i 个元素肯定是不选择的，否则会出现重叠，两段将会合成一段
-    llong ans = -2e9;
+    ill ans = -2e9;
     for (int i = 2; i < n; i++) {
         ans = max(ans, f[i - 1] + g[i + 1]);
     }

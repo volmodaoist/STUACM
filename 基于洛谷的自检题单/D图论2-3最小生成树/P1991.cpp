@@ -15,8 +15,8 @@
 using namespace std;
 
 
-typedef long long LLong;
-typedef unsigned long long ULL;
+typedef long long ill;
+typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
 #define  lc(x)  (x<<1)

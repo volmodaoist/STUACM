@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -57,8 +57,8 @@ bool bfs(){
 }
 
 // EK 算法是对 FF 算法的一个优化
-llong EK(){
-    llong flow = 0;
+ill EK(){
+    ill flow = 0;
     while(bfs()){
         for (int v = dst, i = prec[v]; v != src; v = vex[i ^ 1], i = prec[v]) {
             wgt[i] -= mf[dst];

@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -26,8 +26,8 @@ typedef tuple<int, int, int> iii;
 
 
 int n;
-llong nums[MAXN];
-llong prefix[MAXN];
+ill nums[MAXN];
+ill prefix[MAXN];
 int deq[MAXN], head, tail = -1;
 
 
@@ -44,7 +44,7 @@ int main() {
     }
     
     deq[++tail] = 0;
-    llong ans = -2e9;
+    ill ans = -2e9;
     for (int i = 1; i <= n; i++) {
         while(head <= tail && prefix[i] <= prefix[deq[tail]]){
             --tail;

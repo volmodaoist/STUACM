@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -51,8 +51,8 @@ int dfs(int u, int flow = 2e9){
     return -1;
 }
 
-llong FF(){
-    llong ret, flow = 0;
+ill FF(){
+    ill ret, flow = 0;
     while ((ret = dfs(src)) != -1) {
         memset(vis, 0, sizeof(vis));
         flow += ret;

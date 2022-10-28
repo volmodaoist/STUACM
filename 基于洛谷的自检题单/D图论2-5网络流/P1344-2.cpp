@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -24,16 +24,16 @@ typedef tuple<int, int, int> iii;
 #define  se    second
 #define  MAXN  200005
 
-llong a[MAXN], b[MAXN], c, n, m, src, dst;
-llong head[MAXN], vex[MAXN], wgt[MAXN], nxt[MAXN], idx = 1;
-llong dep[MAXN], curr[MAXN];
+ill a[MAXN], b[MAXN], c, n, m, src, dst;
+ill head[MAXN], vex[MAXN], wgt[MAXN], nxt[MAXN], idx = 1;
+ill dep[MAXN], curr[MAXN];
 
 void init_edge() {
     memset(head, 0, sizeof(head));
     idx = 1;
 }
 
-void add_edge(llong a, llong b, llong w){
+void add_edge(ill a, ill b, ill w){
     vex[++idx] = b, wgt[idx] = w, nxt[idx] = head[a], head[a] = idx;
 }
 
@@ -43,12 +43,12 @@ bool bfs(){
     dep[src] = 1;
 
     queue<int> q;
-    q.push(src)
+    q.push(src);
 
     while (q.size()){
-        llong u = q.front(); q.pop();
+        ill u = q.front(); q.pop();
         for (int i = head[u]; i; i = nxt[i]){
-            llong v = vex[i], w = wgt[i];
+            ill v = vex[i], w = wgt[i];
             if (dep[v] == 0 && w > 0){
                 dep[v] = dep[u] + 1;
                 q.push(v);
@@ -58,16 +58,16 @@ bool bfs(){
     return dep[dst] != 0;
 }
 
-llong dfs(llong u, llong iflow = LONG_MAX){
+ill dfs(ill u, ill iflow = LONG_MAX){
     if(u == dst){
         return iflow;
     }
-    llong oflow = 0;
+    ill oflow = 0;
     for (int i = curr[u]; i && iflow; i = nxt[i]) {
         curr[u] = i;
-        llong v = vex[i], w = wgt[i];
+        ill v = vex[i], w = wgt[i];
         if(dep[v] == dep[u] + 1 && w > 0){
-            llong ret = dfs(v, min(iflow, w));
+            ill ret = dfs(v, min(iflow, w));
             wgt[i] -= ret, iflow -= ret;
             wgt[i ^ 1] += ret, oflow += ret;
         }
@@ -75,8 +75,8 @@ llong dfs(llong u, llong iflow = LONG_MAX){
     return oflow ? oflow : (dep[u] = 0);//残枝优化
 }
 
-llong dinic(){
-    llong ans = 0;
+ill dinic(){
+    ill ans = 0;
     while (bfs()) {
         ans += dfs(src);
     }
@@ -99,13 +99,13 @@ int main() {
         n = max(max(a[i], b[i]), n);// 这句代码是因为hack 数据弄错不得不加上的
     }
     src = 1, dst = n;
-    llong min_cut = dinic();
+    ill min_cut = dinic();
     init_edge();
     for(int i = 0; i < m; i++){
         add_edge(a[i], b[i], 1);
         add_edge(b[i], a[i], 0);
     }
-    llong cut_edges = dinic();
+    ill cut_edges = dinic();
     printf("%lld %lld\n", min_cut, cut_edges);
     return 0;
 }

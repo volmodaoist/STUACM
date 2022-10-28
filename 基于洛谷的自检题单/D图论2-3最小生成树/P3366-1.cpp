@@ -15,7 +15,7 @@
 using namespace std;
 
 
-typedef long long LLong;
+typedef long long ill;
 typedef unsigned long long ULL;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;

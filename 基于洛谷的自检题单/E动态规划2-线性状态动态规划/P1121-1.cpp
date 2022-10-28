@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -26,11 +26,11 @@ typedef tuple<int, int, int> iii;
 
 
 int n;
-llong nums[MAXN];
-llong f[MAXN], g[MAXN];
-llong p[MAXN], q[MAXN], total;
+ill nums[MAXN];
+ill f[MAXN], g[MAXN];
+ill p[MAXN], q[MAXN], total;
 
-llong max_two_sum(llong *nums, int n){
+ill max_two_sum(ill *nums, int n){
     f[1] = nums[1];
     for (int i = 2; i <= n; i++) {
         f[i] = max(f[i - 1] + nums[i], nums[i]);
@@ -47,7 +47,7 @@ llong max_two_sum(llong *nums, int n){
         g[i] = max(g[i + 1], g[i]);
     }
 
-    llong maxv = INT_MIN;
+    ill maxv = INT_MIN;
     for (int i = 1; i < n; i++) {
         maxv = max(maxv, f[i] + g[i + 1]);
     }
@@ -55,7 +55,7 @@ llong max_two_sum(llong *nums, int n){
 }
 
 
-llong min_two_sum(llong *nums, int n){
+ill min_two_sum(ill *nums, int n){
     p[1] = nums[1];
     for (int i = 2; i <= n; i++) {
         p[i] = min(p[i - 1] + nums[i], nums[i]);
@@ -72,7 +72,7 @@ llong min_two_sum(llong *nums, int n){
         q[i] = min(q[i + 1], q[i]);
     }
 
-    llong minv = INT_MAX;
+    ill minv = INT_MAX;
     for (int i = 2; i < n; i++) {
         minv = min(minv, p[i - 1] + q[i + 1]);
     }
@@ -94,7 +94,7 @@ int main() {
     }
 
     // 直接取最大，掐头去尾取最小，然后再做比较
-    llong ans = INT_MIN;
+    ill ans = INT_MIN;
     ans = max(ans, max_two_sum(nums, n));
 
     /**

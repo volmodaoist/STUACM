@@ -13,7 +13,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -25,9 +25,9 @@ typedef tuple<int, int, int> iii;
 
 
 int n;
-llong nums[MAXN];
-llong f[MAXN], g[MAXN];
-llong p[MAXN], q[MAXN], total;
+ill nums[MAXN];
+ill f[MAXN], g[MAXN];
+ill p[MAXN], q[MAXN], total;
 
 int main() {
     #ifdef _OJ_ONLINE_JUDGE_
@@ -58,7 +58,7 @@ int main() {
         g[i] = max(g[i + 1], g[i]);
     }
 
-    llong maxv = INT_MIN;
+    ill maxv = INT_MIN;
     for (int i = 1; i < n; i++) {
         maxv = max(maxv, f[i] + g[i + 1]);
     }
@@ -83,7 +83,7 @@ int main() {
         q[i] = min(q[i + 1], q[i]);
     }
 
-    llong minv = INT_MAX;
+    ill minv = INT_MAX;
     for (int i = 1; i < n; i++) {
         minv = min(minv, p[i] + q[i + 1]);
     }
@@ -91,7 +91,7 @@ int main() {
     // 其实两个最小子段和即使相接也没有关系，只要特判两个最小子段之和恰好等于总和的情况，
     // 如果 minv == total, 说明数组全为负数，最小值应为最大值与次大值之和，但是 total-sumv 会产生零导致错误！
     
-    llong ans = INT_MIN;
+    ill ans = INT_MIN;
     if (minv != total) {
         ans = max(maxv, total - minv);
     }else{

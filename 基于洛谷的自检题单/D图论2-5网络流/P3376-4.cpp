@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -59,17 +59,17 @@ bool bfs(){
 }
 
 // Dinic 另外一个版本的写法
-llong dfs(int u, int iflow = 2e9){
+ill dfs(int u, int iflow = 2e9){
     if(u == dst){
         return iflow;
     }
-    llong used = 0;
+    ill used = 0;
     for (int i = curr[u]; i && iflow; i = nxt[i]) {
         curr[u] = i;
         int v = vex[i], w = wgt[i];
         if (dep[v] == dep[u] + 1 && w > 0) {
             // 个别模板会把参数 iflow 当做常量，然后递归 dfs 传参的时候写成相减形式
-            llong ret = dfs(v, min(iflow - used, 0LL + w));
+            ill ret = dfs(v, min(iflow - used, 0LL + w));
             wgt[i] -= ret;
             wgt[i ^ 1] += ret;
             used += ret;
@@ -82,8 +82,8 @@ llong dfs(int u, int iflow = 2e9){
 }
 
 
-llong Dinic(){
-    llong flow = 0;
+ill Dinic(){
+    ill flow = 0;
     while(bfs()){
         flow += dfs(src);
     }

@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -59,17 +59,17 @@ bool bfs(){
 }
 
 // 对于顶点 u 函数空间，iflow 可以视为流入量，oflow 可以视为流出量
-llong dfs(int u, int iflow = 2e9){
+ill dfs(int u, int iflow = 2e9){
     if(u == dst){
         return iflow;
     }
-    llong oflow = 0;
+    ill oflow = 0;
     for (int i = curr[u]; i && iflow; i = nxt[i]){
         curr[u] = i;
         int v = vex[i], w = wgt[i];
         if (dep[v] == dep[u] + 1 && w > 0) {
             // 个别模板会把参数 iflow 当做常量，然后递归 dfs 传参的时候写成相减形式
-            llong ret = dfs(v, min(iflow, w));
+            ill ret = dfs(v, min(iflow, w));
             wgt[i] -= ret, oflow += ret;
             wgt[i ^ 1] += ret, iflow -= ret;
         }
@@ -78,8 +78,8 @@ llong dfs(int u, int iflow = 2e9){
     return oflow ? oflow : (dep[u] = 0); // 残枝优化
 }
 
-llong Dinic(){
-    llong flow = 0;
+ill Dinic(){
+    ill flow = 0;
     while(bfs()){
         flow += dfs(src);
     }

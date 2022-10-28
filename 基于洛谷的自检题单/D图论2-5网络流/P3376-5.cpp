@@ -14,7 +14,7 @@
 using namespace std;
 
 
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -57,16 +57,16 @@ bool bfs(){
     return dep[src] != 0;
 }
 
-llong dfs(int u, int iflow = 2e9){
+ill dfs(int u, int iflow = 2e9){
     if(u == dst){
         return iflow;
     }
-    llong used = 0;
+    ill used = 0;
     for (int i = curr[u]; i && iflow; i = nxt[i]){
         curr[u] = i;
-        llong v = vex[i], w = wgt[i];
+        ill v = vex[i], w = wgt[i];
         if (dep[v] + 1 == dep[u] && w > 0) {
-            llong ret = dfs(v, min(iflow - used, w));
+            ill ret = dfs(v, min(iflow - used, w));
             used += ret;
             wgt[i] -= ret;
             wgt[i ^ 1] += ret;
@@ -85,9 +85,9 @@ llong dfs(int u, int iflow = 2e9){
     return used;
 }
 
-llong isap(){
+ill isap(){
     bfs();
-    llong flow = 0;
+    ill flow = 0;
     while (dep[src] <= n) {
         memcpy(curr, head, sizeof(head));
         flow += dfs(src);
