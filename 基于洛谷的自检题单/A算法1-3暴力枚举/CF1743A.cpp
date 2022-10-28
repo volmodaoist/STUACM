@@ -1,12 +1,3 @@
-#define _OJ_ONLINE_JUDGE_
-#define	min3(x,y,z)	(min(min(x,y),z))
-#define	max3(x,y,z)	(max(max(x,y),z))
-#define	ALL(x)  (x.begin()), (x.end())
-#define	INS(x)  (inserter(x, x.begin()))
-#define	INF	0x3f3f3f3f
-#define	MOD	1000000007
-#define	PI	3.1415927
-#define	EPS	1e-10
 
 
 #include <bits/stdc++.h>
@@ -14,13 +5,13 @@
 using namespace std;
 
 
+// https://codeforces.com/contest/1743/problem/A
+// 本题是一道排列组合的相关的题目，由于数据范围很小，直接暴力枚举即可
 int kase, n, x, not_in[10], cot[10];
 bool check(int i, int j, int k, int h){
     int cnt = 0;
     memset(cot, 0, sizeof(cot));
     cot[i]++, cot[j]++, cot[k]++, cot[h]++;
-    // printf("%d %d %d %d\n", i, j, k, h);
-    // printf("%d %d %d %d\n", cot[i], cot[j], cot[k], cot[h]);
     for (int i = 0; i < 10; i++) {
         if (cot[i] != 0){
             cnt++;

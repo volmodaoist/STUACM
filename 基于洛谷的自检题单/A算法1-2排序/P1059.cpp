@@ -2,20 +2,13 @@
 #include <limits>
 using namespace std;
 
-
-typedef long long Long;
-typedef unsigned long long ULL;
-#define  fi    first
-#define  se    second
+typedef long long ill;
+typedef unsigned long long ull;
 #define  MAXN  100005
 
 int  n, arr[MAXN];
-int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../../in.txt","r",stdin);
-    freopen("../../out.txt","w",stdout);
-    #endif
 
+int main(){ 
     while (scanf("%d", &n) != EOF){
         for (int i = 0; i < n; i++){
             scanf("%d", &arr[i]);
