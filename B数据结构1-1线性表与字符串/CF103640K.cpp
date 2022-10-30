@@ -14,7 +14,7 @@
 using namespace std;
  
  
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 typedef pair<int, int> ii;
 typedef tuple<int, int, int> iii;
@@ -33,7 +33,7 @@ typedef tuple<int, int, int> iii;
 string s;
 int n;
 int main() {
-#ifdef _OJ_ONLINE_JUDGE_
+    #ifdef _OJ_ONLINE_JUDGE_
     freopen("../in.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
