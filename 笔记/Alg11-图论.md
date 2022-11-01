@@ -27,6 +27,9 @@
     - Tarjan 割边
 
 - 小规模二分图匹配
+  - 宽搜染色法
+  - 匈牙利算法
+
 - 网络流建模
 
 
@@ -63,7 +66,7 @@
 #### Res-Graph-Built
 
 ```c++
-typedef long long llong;
+typedef long long ill;
 typedef unsigned long long ull;
 
 // 残留网络建图，此处一个非常重要的细节便是 idx = 1 而非 0，这是为了方便更新残留网络的反向边
