@@ -24,6 +24,7 @@ ill ans;
 ii stk[MAXN];
 int n, h[MAXN], top;
 
+// 本题来自于 LG1823，本题难点在于如何处理等高个体
 int main(){ 
     #ifdef _OJ_ONLINE_JUDGE_
     freopen("../in.txt","r",stdin);

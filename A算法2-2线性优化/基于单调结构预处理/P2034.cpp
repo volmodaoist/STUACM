@@ -16,20 +16,11 @@ using namespace std;
 
 typedef long long ill;
 typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  clz   __builtin_clz
-#define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  2000000
 
 
-// 由于数据都是非负数，直接滑动窗口就好
-int n, k;
-ill dp[MAXN][2];
-ill p[MAXN], s[MAXN];
-int deq[MAXN], head, tail = 0;
+ill dp[MAXN][2], p[MAXN], s[MAXN];
+int deq[MAXN], n, k, head, tail = -1;
 
 int main() {
     #ifdef _OJ_ONLINE_JUDGE_
