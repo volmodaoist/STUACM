@@ -23,7 +23,7 @@ typedef vector<ii>  vii;
 #define  xx    first
 #define  yy    second
 
-int path[105], org, cnt;
+int n, path[105], org, cnt;
 int dfs(int u ,int n){
     if(n <= 0 && u > 2){
         // 因为 u = 1 会有 10 = 10 这种平凡分解
@@ -47,23 +47,10 @@ int dfs(int u ,int n){
 }
 
 
-int kase;
 int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("test.in","r",stdin);
-    freopen("test.out","w",stdout);
-    #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
-
-    int n;
     while (cin >> n){
         org = n;
         cnt = dfs(1, n);
-        // cout << "total=" << cnt << endl;
     }
-
     return 0;
 }

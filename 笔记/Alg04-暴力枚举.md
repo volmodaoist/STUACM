@@ -10,7 +10,7 @@
       - 枚举组合
   - 宽度优先算法
     - 增量构造思想
-    - 二维迷宫搜索问题
+    - 迷宫搜索问题
   - 搜索剪枝技巧
 - 高级搜索算法
 
@@ -33,7 +33,46 @@
 #### 排列回溯
 
 ```c++
+/**
+ * 本题来自于洛谷模板题 P1706
+*/
+int n, x[MAXN], vis[MAXN], path[MAXN];
+void dfs(int plen){
+    if(plen == n){
+        // Do something here...打印结果或是进行其它操作...
+        return;
+    }
+    for (int i = 0; i < n; i++){
+        if(!vis[i]){
+            vis[i] = 1, path[plen] = x[i];
+            dfs(plen + 1);
+            vis[i] = 0, path[plen] = 0;
+        }
+    }
+}
 ```
 
+
+
 #### 组合回溯
+
+```c++
+/**
+ * 本题来自于洛谷模板题 P1157
+*/
+int n, r, x[MAXN], vis[MAXN], path[MAXN];
+void dfs(int start, int plen){
+    if(plen == r){
+        // Do something here...打印结果或是进行其它操作...
+        return;
+    }
+    for (int i = start; i < n; i++){
+        if(!vis[i]){
+            vis[i] = 1, path[plen] = x[i];
+            dfs(i + 1, plen + 1);
+            vis[i] = 0, path[plen] = 0;
+        }
+    }
+}
+```
 
