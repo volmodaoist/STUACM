@@ -2,16 +2,7 @@
 #include <iomanip>
 using namespace std;
 
-
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-typedef vector<int> vi;
-typedef vector<ii>  vii;
-#define  xx    first
-#define  yy    second
-
-int path[105];
-int book[105];
+int path[105], book[105];
 void dfs(int n , int r, int u, int state){
     if (u == r + 1){
         for (int i = 1; i <= r; i++){
