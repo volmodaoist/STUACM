@@ -113,6 +113,7 @@ int main(){
 | AcWing 或 AC |    [AcWing 在线测评平台](https://www.acwing.com/problem/)    |
 |   LG 或 P    |      [洛谷题单](https://www.luogu.com.cn/training/list)      |
 |  LC 或 LCP   | [力扣题单与力扣杯竞赛真题](https://leetcode.cn/problemset/all/) |
+|     LOJ      |                  [LibreOJ](https://loj.ac/)                  |
 
 本项目的笔记建议使用Chrome或Edge浏览器，配合 MathJax 3 Plugin for Github 插件阅读，
 

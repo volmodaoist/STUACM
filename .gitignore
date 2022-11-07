@@ -6,11 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
-# 忽略这个特殊文件
 *.DS_Store*
 *草稿*
 *手稿*
-*未分类*
+*未分�?*
 *images*
 
 # Test module
