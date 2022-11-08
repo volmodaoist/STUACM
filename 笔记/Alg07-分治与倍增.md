@@ -26,6 +26,8 @@
 
 
 
+
+
 ### ⚔️分治例题精选
 
 |                     题目                     |      思路描述      |
@@ -39,11 +41,154 @@
 
 ### ⚔️分治查找例题精选
 
-|                             题目                             |                      描述                      |
-| :----------------------------------------------------------: | :--------------------------------------------: |
-| LC2439. 最小化数组的最大值<br/>LC0875. 爱吃香蕉的珂珂<br/>LC1482. 制作 m 束花所需的最少天数<br/>LCP0012. 小张刷题计划<br/> | 均为二分猜答案问题，通常会出现最值极化的关键词 |
-|                                                              |                    三分搜索                    |
-|                                                              |                                                |
+|                             题目                             |                          描述                          |
+| :----------------------------------------------------------: | :----------------------------------------------------: |
+| LC2439. 最小化数组的最大值<br/>LC0875. 爱吃香蕉的珂珂<br/>LC1482. 制作 m 束花所需的最少天数<br/>LCP0012. 小张刷题计划<br/> |     均为二分猜答案问题，通常会出现最值极化的关键词     |
+|                 LC2448. 使数组相等的最小开销                 | 会发现曲线是一个开口向上的抛物线，故以三分搜索找最优值 |
+|                                                              |                                                        |
+
+
+
+
+
+### 🦉分块思想代码实现
+
+#### 分块查询区间和
+
+```c++
+int n, a, b, c, op;
+int seq[MAXN], atg[MAXN], sumv[MAXN], pos[MAXN], L[MAXN], R[MAXN];
+
+// 分块过程, 使用1-base下标, 然后注意最后一块的右边界不可以超过数组的最大长度
+void build(){
+    int t = sqrt(n * 1.0);
+    int blocks = n / t + (n % t != 0);
+    for (int i = 1; i <= blocks; i++){
+        L[i] = (i - 1) * t + 1;
+        R[i] = i * t;
+    }
+    R[blocks] = n;
+    for (int i = 1; i <= blocks; i++){
+        for (int j = L[i]; j <= R[i]; j++){
+            pos[j] = i;
+            sumv[i] += seq[j];
+        }
+    }
+}
+
+void update(int lo, int hi, int c){
+    int p = pos[lo], q = pos[hi];
+    if (p == q){
+        for (int i = lo; i <= hi; i++){
+            seq[i] += c;
+        }
+        sumv[p] += ((hi - lo + 1) * c);
+    }else{
+        for (int i = p + 1; i <= q - 1; i++){
+            atg[i] += c;
+        }
+        for (int i = lo; i <= R[p]; i++){ seq[i] += c;} // 左端暴力修改
+        sumv[p] += ((R[p] - lo + 1) * c);
+        for (int i = L[q]; i <= hi; i++){ seq[i] += c;} // 右端暴力修改
+        sumv[q] += ((hi - L[q] + 1) * c);
+    }
+}
+
+int query(int lo, int hi){
+    int p = pos[lo], q = pos[hi], ans = 0;
+    if (p == q) {
+        for (int i = lo; i <= hi; i++){
+            ans += seq[i];
+        }
+        ans += (atg[p] * (hi - lo + 1));
+    } else {
+        for (int i = p + 1; i <= q - 1; i++) {
+            ans += sumv[i] + atg[i] * (R[i] - L[i] + 1);
+        }
+        for (int i = lo; i <= R[p]; i++){
+            ans += seq[i];
+        }
+        ans += (atg[p] * (R[p] - lo + 1));
+        for (int i = L[q]; i <= hi; i++){
+            ans += seq[i];
+        }
+        ans += (atg[q] * (hi - L[q] + 1));
+    }
+    return ans;
+}
+```
+
+
+
+#### 分块排序查询较小值个数
+
+```c++
+int a, b, c, n, op;
+int seq[MAXN], pos[MAXN], atg[MAXN], L[MAXN], R[MAXN];
+vector<int> v[MAXN];
+
+void build(){
+    int t = sqrt(n * 1.0);
+    int blocks = (n / t) + (n % t != 0);
+    for (int i = 1; i <= blocks; i++) {
+        L[i] = (i - 1) * t + 1;
+        R[i] = i * t;
+    }
+    R[blocks] = n;
+    for (int i = 1; i <= blocks; i++){
+        for (int j = L[i]; j <= R[i]; j++){
+            pos[j] = i;
+            v[i].push_back(seq[j]);
+        }
+        sort(v[i].begin(), v[i].end());
+    }
+}
+
+void reset(int x){
+    v[x].clear();
+    for (int i = L[x]; i <= R[x]; i++){
+        v[x].push_back(seq[i]);
+    }
+    sort(v[x].begin(), v[x].end());
+}
+
+void update(int lo, int hi, ill c){
+    int p = pos[lo], q = pos[hi];
+    if (p == q){
+        for (int i = lo; i <= hi; i++){
+            seq[i] += c;
+        }
+        reset(p);
+    }else{
+        for (int i = lo; i <= R[p]; i++){ seq[i] += c;} reset(p); // 左端暴力修改
+        for (int i = L[q]; i <= hi; i++){ seq[i] += c;} reset(q); // 右端暴力修改
+        for (int i = p + 1; i <= q - 1; i++){
+            atg[i] += c;
+        }
+    }
+}
+
+ill query(int lo, int hi, ill c){
+    ill ans = 0;
+    int p = pos[lo], q = pos[hi];
+    if (p == q) {
+        for (int i = lo; i <= hi; i++){
+            if(seq[i] + atg[p] < c){
+                ans++;
+            }
+        }
+    }else{
+        for (int i = lo; i <= R[p]; i++){ if(seq[i] + atg[p] < c) ans++; } // 左端对答案的贡献
+        for (int i = L[q]; i <= hi; i++){ if(seq[i] + atg[q] < c) ans++; } // 右端对答案的贡献
+        for (int i = p + 1; i <= q - 1; i++){
+            ans += (lower_bound(v[i].begin(), v[i].end(), c - atg[i]) - v[i].begin());
+        }
+    }
+    return ans;
+}
+```
+
+
 
 
 
