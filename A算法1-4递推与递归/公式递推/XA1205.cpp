@@ -22,21 +22,11 @@ void tower(int n, char a/*src*/, char b/*dst*/, char c/*helper*/){
     tower(n - 1, c, b, a);
 }
 
-int kase, n;
-int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("test.in","r",stdin);
-    freopen("test.out","w",stdout);
-    #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
-
-    char a, b, c;
+int n;
+char a, b, c;
+int main() {
     while (cin >> n >> a >> b >> c){
         tower(n, a, b, c);
     }
-
     return 0;
 }

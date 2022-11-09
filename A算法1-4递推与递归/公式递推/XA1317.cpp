@@ -32,15 +32,6 @@ void dfs(int n , int r, int u, int state){
 
 
 int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("test.in","r",stdin);
-    freopen("test.out","w",stdout);
-    #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
-
     int n, r;
     while (cin >> n >> r){
         memset(path, 0, sizeof(path));

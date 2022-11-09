@@ -31,17 +31,8 @@ ull S(ull n, ull k){
     return memo[n][k];
 }
 
-int kase;
-int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("test.in","r",stdin);
-    freopen("test.out","w",stdout);
-    #endif
-    #ifndef  _OJ_ONLINE_JUDGE_
-    std::ios::sync_with_stdio(false);
-    //ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);//
-    #endif
 
+int main(){ 
     int n, k;
     while(cin >> n >> k){
         cout << S(n, k) << endl;

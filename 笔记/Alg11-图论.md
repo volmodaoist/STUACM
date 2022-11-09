@@ -27,9 +27,10 @@
     - Tarjan 割边
 
 - 小规模二分图匹配
-  - 宽搜染色法
-  - 匈牙利算法
-
+  - 宽搜染色法判定可否构成二分图
+  - HA算法 (匈牙利算法)
+  - KM算法 (匈牙利算法变体)
+  
 - 网络流建模
 
 
@@ -56,6 +57,143 @@
   - *Dilworth*：任意偏序集的最长链与最短链个数等于其各自反链的长度！
   -  *König*：二分图中的最大匹配数等于这个图中的最小点覆盖数！
   - *MaxFlowMinCut*：最大流的流量等于最小割的容量！
+
+
+
+### 🦉二分图匹配模板
+
+#### 匈牙利算法-DFS
+
+```c++
+int n1, n2, m, a, b;
+int find(int u){
+    for (int v : edges[u]) {
+        if (vist[v]) {
+            if (!match[v] || dfs(mamth[v])){
+                match[v] = u;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+```
+
+#### 匈牙利算法-BFS
+
+```c++
+int n1, n2, m, a, b;
+int ps[MAXN], pt[MAXN], prec[MAXN], vist[MAXN];
+vector<int> edges[MAXN];
+
+void aug(int x){
+    while(x){
+        int t = ps[prec[x]];
+        ps[prec[x]] = x;
+        pt[x] = prec[x];
+        x = t;
+    }
+}
+
+bool bfs(int x){
+    memset(vist, 0, sizeof(vist));
+    memset(prec, 0, sizeof(prec));
+    queue<int> q;
+    q.push(x);
+    while(!q.empty()){
+        int u = q.front(); q.pop();
+        for(int v: edges[u]){
+            if(!vist[v]){
+                vist[v] = 1;
+                prec[v] = u;
+                if(!pt[v]){
+                    aug(v);
+                    return true;
+                }else{
+                    q.push(pt[v]);
+                }
+            }
+        }
+    }
+    return false;
+}
+```
+
+#### KM算法-DFS
+
+```c++
+
+```
+
+
+
+#### KM算法-BFS
+
+```c++
+void aug(int x) {
+    while(x){
+        int t = ps[prec[x]];
+        ps[prec[x]] = x;
+        pt[x] = prec[x];
+        x = t;
+    }
+}
+
+void bfs(int x){
+    fill(slack + 1, slack + n2 + 1, 2e9);
+    memset(prec, 0, sizeof(prec));
+    memset(vs, 0, sizeof(vs));
+    memset(vt, 0, sizeof(vt));
+
+    queue<int> q;
+    q.push(x);
+    while(1){
+        while(q.size()){
+            int u = q.front(); q.pop();
+            vs[u] = 1;
+            for (int v = 1; v <= n2; v++){
+                if(!vt[v]){
+                    if(ls[u] + lt[v] - e[u][v] < slack[v]){
+                        slack[v] = ls[u] + lt[v] - e[u][v];
+                        prec[v] = u;
+                    }
+                    if(!slack[v]){
+                        vt[v] = 1;
+                        if(!pt[v]){
+                            aug(v);
+                            return;
+                        } else {
+                            q.push(pt[v]);
+                        }
+                    }
+                }
+            }
+        }
+        // 增广失败的时候扩大子图
+        int delta = 2e9;
+        for (int v = 1; v <= n2; v++) {
+            if(!vt[v]){
+                delta = min(delta, slack[v]);
+            }
+        }
+        if(delta == 2e9) break;
+        for (int i = 1; i <= n1; i++) if(vs[i]) ls[i] -= delta;
+        for (int i = 1; i <= n2; i++) if(vt[i]) lt[i] += delta; else slack[i] -= delta;
+
+        for (int v = 1; v <= n2; v++) {
+            if (!vt[v] && !slack[v]){
+                vt[v] = 1;
+                if(!pt[v]){
+                    aug(v);
+                    return;
+                }else{
+                    q.push(pt[v]);
+                }
+            }
+        }
+    }
+}
+```
 
 
 
