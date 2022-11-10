@@ -119,7 +119,7 @@ int main(){
     for (int i = 1; i <= n1; i++) ans += ls[i];
     for (int j = 1; j <= n2; j++) ans += lt[j];
     printf("%lld\n", ans);
-    for (int i = 1; i <= n1; i++){
+    for (int i = 1; i <= n2; i++){
         if(e[i][ps[i]]){
             printf("%d ", ps[i]);
         }else{
