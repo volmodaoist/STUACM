@@ -1,27 +1,9 @@
-#define _OJ_ONLINE_JUDGE_
-#define	min3(x,y,z)	(min(min(x,y),z))
-#define	max3(x,y,z)	(max(max(x,y),z))
-#define	ALL(x)  (x.begin()), (x.end())
-#define	INS(x)  (inserter(x, x.begin()))
-#define	INF	0x3f3f3f3f
-#define	MOD	1000000007
-#define	PI	3.1415927
-#define	EPS	1e-10
-
-
 #include <bits/stdc++.h>
 #include <limits.h>
 using namespace std;
 
-
 typedef long long ill;
 typedef unsigned long long ull;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  clz   __builtin_clz
-#define  ctz   __builtin_ctz
-#define  fi    first
-#define  se    second
 #define  MAXN  1000
 
 int n1, n2, m, a, b, c;
@@ -93,16 +75,12 @@ void bfs(int x){
         }
     }
 }
+// 上述写法不够优雅，更简短的写法详见另外一版
 
 
 
 int main(){ 
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../in.txt","r",stdin);
-    freopen("../out.txt","w",stdout);
-    #endif    
-
-    // 左部的顶点个数、右部的顶点个数、连边的个数
+    // 读入左部的顶点个数、右部的顶点个数、连边的个数
     scanf("%d %d %d", &n1, &n2, &m);
     n2 = max(n1, n2);
     for (int i = 0; i < m; i++) {

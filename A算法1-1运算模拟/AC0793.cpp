@@ -1,9 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int n;
-int ax[100005],b;
-int cx[100005];
+int ax[100005], cx[100005], n, b;
 
 int mul(string &x, int b){
     int carry = 0, cnt = 0;
