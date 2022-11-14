@@ -1,11 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-typedef long long llong;
+typedef long long ill;
 #define MAXN 100005
 
-int n, m, src, dst, a, b, c;
-int head[MAXN], vex[MAXN], wgt[MAXN], nxt[MAXN],idx = 1;
+int n, m, a, b, c, src, dst;
+int head[MAXN], vex[MAXN], wgt[MAXN], nxt[MAXN], idx = 1;
 int prec[MAXN], mf[MAXN];
 void add_edge(int x, int y, int w){
     vex[++idx] = y, wgt[idx] = w, nxt[idx] = head[x], head[x] = idx;
@@ -32,8 +32,8 @@ bool bfs(){
     return false;
 }
 
-llong EK(){
-    llong ans = 0;
+ill EK(){
+    ill ans = 0;
     while(bfs()){
         for(int v = dst, i = prec[v]; v != src; v = vex[i ^ 1], i = prec[v]){
             wgt[i] -= mf[dst];
