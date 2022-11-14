@@ -1,14 +1,3 @@
-#define _OJ_ONLINE_JUDGE_
-#define	min3(x,y,z)	(min(min(x,y),z))
-#define	max3(x,y,z)	(max(max(x,y),z))
-#define	ALL(x)  (x.begin()), (x.end())
-#define	INS(x)  (inserter(x, x.begin()))
-#define	INF	0x3f3f3f3f
-#define	MOD	1000000007
-#define	PI	3.1415927
-#define	EPS	1e-10
-
-
 #include <bits/stdc++.h>
 #include <limits.h>
 using namespace std;
@@ -62,21 +51,17 @@ ill dfs(ill u, ill iflow = LONG_MAX){
     if(u == dst){
         return iflow;
     }
-    ill used = 0;
-    for (int i = curr[u]; i; i = nxt[i]) {
+    ill oflow = 0;
+    for (int i = curr[u]; i && iflow; i = nxt[i]) {
         curr[u] = i;
         ill v = vex[i], w = wgt[i];
         if(dep[v] == dep[u] + 1 && w > 0){
-            ill ret = dfs(v, min(iflow - used, w));
-            wgt[i] -= ret;
-            wgt[i ^ 1] += ret;
-            used += ret;
-            if(used == iflow){
-                return used;
-            }
+            ill ret = dfs(v, min(iflow, w));
+            wgt[i] -= ret, iflow -= ret;
+            wgt[i ^ 1] += ret, oflow += ret;
         }
     }
-    return used ? used : (dep[u] = 0);//残枝优化
+    return oflow ? oflow : (dep[u] = 0);//残枝优化
 }
 
 ill dinic(){
@@ -97,13 +82,19 @@ int main() {
     scanf("%lld %lld", &n, &m);
     for (int i = 0; i < m; i++){
         scanf("%lld %lld %lld", &a[i], &b[i], &c);
-        add_edge(a[i], b[i], c * offset + 1);
+        add_edge(a[i], b[i], c);
         add_edge(b[i], a[i], 0);
-        
+
         n = max(max(a[i], b[i]), n);// 这句代码是因为hack 数据弄错不得不加上的
     }
     src = 1, dst = n;
-    ill ans = dinic();
-    printf("%lld %lld\n", ans / offset, ans % offset);
+    ill min_cut = dinic();
+    init_edge();
+    for(int i = 0; i < m; i++){
+        add_edge(a[i], b[i], 1);
+        add_edge(b[i], a[i], 0);
+    }
+    ill cut_edges = dinic();
+    printf("%lld %lld\n", min_cut, cut_edges);
     return 0;
 }
