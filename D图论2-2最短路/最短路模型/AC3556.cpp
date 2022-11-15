@@ -1,34 +1,16 @@
-#define _OJ_ONLINE_JUDGE_
-#define	min3(x,y,z)	(min(min(x,y),z))
-#define	max3(x,y,z)	(max(max(x,y),z))
-#define	CLEAR(A,x)  (memset(A,x,sizeof(A)))
-#define	ALL(x)  (x.begin()), (x.end())
-#define	INS(x)  (inserter(x, x.begin()))
-#define	INF	0x3f3f3f3f
-#define	MOD	1000000007
-#define	PI	3.1415927
-#define	EPS	1e-10
-
-
 #include <bits/stdc++.h>
 #include <limits>
 using namespace std;
 
-
-typedef long long LLong;
-typedef unsigned long long ULL;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  lc(x)  (x<<1)
-#define  rc(x)  (x<<1|1)
-#define  fi    first
-#define  se    second
+#define  INF   0x3f3f3f3f
 #define  MAXN  55
 
 typedef struct Egde{
     int a, b, c;
 } Edge;
+
 Edge edges[2500];
+
 int g[MAXN][MAXN];
 int dist[MAXN], vist[MAXN];
 int kase, n, m, k, a, b, c, t;

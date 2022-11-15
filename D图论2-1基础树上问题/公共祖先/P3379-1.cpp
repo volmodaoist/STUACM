@@ -17,12 +17,6 @@ using namespace std;
 
 typedef long long ill;
 typedef unsigned long long ULL;
-typedef pair<int, int> ii;
-typedef tuple<int, int, int> iii;
-#define  lc(x)  (x<<1)
-#define  rc(x)  (x<<1|1)
-#define  fi    first
-#define  se    second
 #define  MAXN  500005
 
 vector<int> edges[MAXN];
