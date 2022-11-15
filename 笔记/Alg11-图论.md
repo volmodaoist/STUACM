@@ -567,6 +567,10 @@ int hlpp(int u = src){
 
 
 
+At end of BFS, for all $v ∈ V$, $\newcommand{\dist}{\operatorname{dist}}\dist(v)$ is at least the distance from $s$ to $v$.
+
+
+
 ### ⚔️网络流模型的广泛应用
 
 |        题目        |                           思路描述                           |
