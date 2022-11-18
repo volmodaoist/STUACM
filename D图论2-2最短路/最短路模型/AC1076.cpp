@@ -45,7 +45,7 @@ int main(){
         cury = y;
         stk.push({curx, cury});
     }
-     stk.push({0, 0});
+    stk.push({0, 0});
     while(stk.size()){
         auto [x,y] = stk.top(); stk.pop();
         printf("%d %d\n", x, y);
