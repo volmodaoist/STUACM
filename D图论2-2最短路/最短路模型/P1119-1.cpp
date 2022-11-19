@@ -53,11 +53,6 @@ int dijstra(int src, int dst, int now){
 }
 
 int main() {
-    #ifdef _OJ_ONLINE_JUDGE_
-    freopen("../in.txt","r",stdin);
-    freopen("../out.txt","w",stdout);
-    #endif
-
     scanf("%d %d", &n, &m);
     for (int i = 0; i < n; i++){
         scanf("%d", &days[i]);
