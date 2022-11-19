@@ -19,18 +19,28 @@
 - 关键路径与拓扑排序
 - 生成树问题 (※)
 - 最短路问题 (※)
+  - BFS 无权图最短路
+  - Dijstra 算法
+    - Naive-Dijstra
+    - Heap-Dijstra
+
+  - Bellman-Ford 算法
+    - Naive-Bellman-Ford
+    - Queue-Bellman-Ford (SPFA)
+
+  - Floyd 算法
+  - Johnson  算法
+
 - 连通性问题 (※)
   - Gabow 强连通分量算法
   - Tarjan 强连通分量算法
     - Tarjan 缩点，vDCC缩点
     - Tarjan 割点，eDCC缩点 
     - Tarjan 割边
-
 - 小规模二分图匹配
-  - 宽搜染色法判定可否构成二分图
-  - HA算法 (匈牙利算法)
-  - KM算法 (匈牙利算法变体)
-  
+  - BFS 染色法判定可否构成二分图
+  - HA算法 (匈牙利算法本体，适用于无权图)
+  - KM算法 (匈牙利算法变体，适用于带权图)
 - 网络流建模
 
 
@@ -119,79 +129,63 @@ bool bfs(int x){
 }
 ```
 
-#### KM算法-DFS
+
+
+#### KM算法
 
 ```c++
+ill slack[MAXN], ls[MAXN], lt[MAXN];
+ill g[MAXN][MAXN], match[MAXN], prec[MAXN], vt[MAXN];
 
-```
-
-
-
-#### KM算法-BFS
-
-```c++
-void aug(int x) {
-    while(x){
-        int t = ps[prec[x]];
-        ps[prec[x]] = x;
-        pt[x] = prec[x];
-        x = t;
-    }
+// 虚设一个顶点 q，使其与当前顶点 u 匹配, 此处 match 记录右侧顶点匹配的左侧顶点
+void bfs(int u){
+    ill p = 0, q = 0, idx = 0, delta = 0;
+    memset(prec, 0, sizeof(prec));
+    memset(slack, 0x7f, sizeof(slack));
+    match[q] = u;
+    do{
+        p = match[q], vt[q] = 1, delta = 1e18;
+        for (int i = 1; i <= n; i++) {
+            if(vt[i]) continue;
+            if(slack[i] > ls[p] + lt[i] - g[p][i]){
+                slack[i] = ls[p] + lt[i] - g[p][i];
+                prec[i] = q;
+            }
+            // 使用顶标与连边的差值维护松弛量slack使其尽可能小，然后从中找出最小的松弛量及其下标
+            if(slack[i] < delta){
+                delta = slack[i];
+                idx = i;
+            }
+        }
+        // 我们只在乎右侧顶点集合是否处于交错树中
+        for (int i = 0; i <= n; i++){
+            if(vt[i]){
+                ls[match[i]] -= delta, lt[i] += delta;
+            } else {
+                slack[i] -= delta;
+            }
+        }
+        q = idx; 
+    } while (match[q]);
+    while(q) match[q] = match[prec[q]], q = prec[q]; // 沿着交错路重新更新匹配关系
 }
 
-void bfs(int x){
-    fill(slack + 1, slack + n2 + 1, 2e9);
-    memset(prec, 0, sizeof(prec));
-    memset(vs, 0, sizeof(vs));
-    memset(vt, 0, sizeof(vt));
 
-    queue<int> q;
-    q.push(x);
-    while(1){
-        while(q.size()){
-            int u = q.front(); q.pop();
-            vs[u] = 1;
-            for (int v = 1; v <= n2; v++){
-                if(!vt[v]){
-                    if(ls[u] + lt[v] - e[u][v] < slack[v]){
-                        slack[v] = ls[u] + lt[v] - e[u][v];
-                        prec[v] = u;
-                    }
-                    if(!slack[v]){
-                        vt[v] = 1;
-                        if(!pt[v]){
-                            aug(v);
-                            return;
-                        } else {
-                            q.push(pt[v]);
-                        }
-                    }
-                }
-            }
-        }
-        // 增广失败的时候扩大子图
-        int delta = 2e9;
-        for (int v = 1; v <= n2; v++) {
-            if(!vt[v]){
-                delta = min(delta, slack[v]);
-            }
-        }
-        if(delta == 2e9) break;
-        for (int i = 1; i <= n1; i++) if(vs[i]) ls[i] -= delta;
-        for (int i = 1; i <= n2; i++) if(vt[i]) lt[i] += delta; else slack[i] -= delta;
-
-        for (int v = 1; v <= n2; v++) {
-            if (!vt[v] && !slack[v]){
-                vt[v] = 1;
-                if(!pt[v]){
-                    aug(v);
-                    return;
-                }else{
-                    q.push(pt[v]);
-                }
-            }
+ill KM(){
+    memset(match, 0, sizeof(match));
+    memset(ls, 0, sizeof(ls));
+    memset(lt, 0, sizeof(lt));
+    for (int i = 1; i <= n; i++){
+        memset(vt, 0, sizeof(vt));
+        bfs(i);
+    }
+    ill ans = 0;
+    for (int i = 1; i <= n; i++){
+        if(match[i]){
+            ans += g[match[i]][i];
         }
     }
+    return ans;
 }
 ```
 
