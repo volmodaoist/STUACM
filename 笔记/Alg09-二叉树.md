@@ -126,7 +126,7 @@ vector<int> xxx_orderTraversal(TreeNode* root) {
             if(curr->right) stk.push(curr->right);
           	// 中序遍历...
             if(curr->left) stk.push(curr->left);
-            // 前序遍历...
+          	// 前序遍历...
         }else{
             curr = stk.top(); stk.pop();
             ans.push_back(curr->val);
@@ -135,6 +135,7 @@ vector<int> xxx_orderTraversal(TreeNode* root) {
     return ans;
 }
 ```
+
 
 
 
